@@ -10,7 +10,7 @@ module.exports = db => {
 
     db.HGW.getAll((error, allUsers) => {
       data["allUsers"] = allUsers;
-      response.render("main/main", data);
+      response.render("main/home", data);
 
     });
   };
