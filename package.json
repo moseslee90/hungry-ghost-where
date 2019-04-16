@@ -1,0 +1,31 @@
+{
+  "name": "hungry-ghost-where",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moseslee90/hungry-ghost-where.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/moseslee90/hungry-ghost-where/issues"
+  },
+  "homepage": "https://github.com/moseslee90/hungry-ghost-where#readme",
+  "dependencies": {
+    "cookie-parser": "^1.4.4",
+    "express": "^4.16.4",
+    "express-react-views": "^0.11.0",
+    "js-sha256": "^0.9.0",
+    "method-override": "^3.0.0",
+    "pg": "^7.9.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "url": "^0.11.0"
+  }
+}
