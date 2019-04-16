@@ -1,4 +1,5 @@
 let React = require('react');
+let DefaultLayout = require('./layouts/default-layout');
 
 class Main extends React.Component {
 render() {
@@ -16,20 +17,10 @@ return (
 )
 });
 return (
-<html>
-<head>
-<meta charSet="utf-8" />
-<meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-<title>Hungry Ghost Where</title>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-</head>
-<body>
-Main Page of Hungry Ghost Where
-<h2>userId</h2>
-{userId}
-{allUsersHTML}
-</body>
-</html>
+<DefaultLayout>
+    <div>userId is {userId}</div>
+    {allUsersHTML}
+</DefaultLayout>
 );}
 }
 module.exports = Main;
