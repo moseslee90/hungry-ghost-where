@@ -3,7 +3,7 @@ let React = require("react");
 class Header extends React.Component {
   render() {
     return (
-      <div className="row mb-3">
+      <div className="row mb-3 pl-2 pr-2">
         <div className="col-lg-8">
           <div className="row">
             <div className="col-1 d-flex justify-content-end align-items-center pr-0">
@@ -12,7 +12,7 @@ class Header extends React.Component {
             <div id="navbar-title" className="col-1 d-flex align-items-center">
               <div>HGW</div>
             </div>
-            <div className="col">
+            <div className="col pr-0 pl-4">
               <form action="">
                 <div className="form-group mt-1 mb-auto">
                   <select className="form-control" id="exampleFormControlSelect1">
@@ -33,8 +33,8 @@ class Header extends React.Component {
                       placeholder="Search"
                     />
                   </div>
-                  <div className="col-3 pl-0 pr-0">
-                    <button className="btn btn-primary" type="submit">
+                  <div className="col-3 pl-0 pr-2">
+                    <button className="btn btn-primary" type="submit" id="search-button">
                       Search
                     </button>
                   </div>
