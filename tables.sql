@@ -9,6 +9,8 @@ CREATE TABLE IF NOT EXISTS authentication (
     username_hash TEXT,
     password_hash TEXT
 );
+
+
 CREATE TABLE IF NOT EXISTS posts(
     id SERIAL PRIMARY KEY,
     user_id INTEGER,
@@ -25,4 +27,11 @@ CREATE TABLE IF NOT EXISTS comments(
     post_id INTEGER,
     deleted BOOLEAN,
     content TEXT
+);
+CREATE TABLE IF NOT EXISTS votes(
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER,
+    post_id INTEGER,
+    deleted BOOLEAN,
+    vote BOOLEAN
 );

@@ -52,12 +52,30 @@ class Header extends React.Component {
             <div className="col-lg-3 col-4 d-flex justify-content-center">
               <button className="btn btn-primary">Signup</button>
             </div>
-            <div className="col-lg-2 col-4 d-flex justify-content-start">
-              <button className="btn btn-primary">Account</button>
+            <div className="col-lg-2 col-4 nav-item dropdown">
+              <a
+                className="nav-link dropdown-toggle"
+                data-toggle="dropdown"
+                href="#"
+                role="button"
+                aria-haspopup="true"
+                aria-expanded="false">
+                Account
+              </a>
+              <div className="dropdown-menu">
+                <a className="dropdown-item" href="#one">
+                  one
+                </a>
+                <a className="dropdown-item" href="#two">
+                  two
+                </a>
+                <div role="separator" className="dropdown-divider" />
+                <a className="dropdown-item" href="#three">
+                  three
+                </a>
+              </div>
             </div>
-            <div className = "col-lg-2 col-0">
-            
-            </div>
+            <div className="col-lg-2 col-0" />
           </div>
         </div>
       </div>

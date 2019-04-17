@@ -1,4 +1,5 @@
 let React = require("react");
+let Header = require("../components/header");
 
 class DefaultLayout extends React.Component {
   render() {
@@ -11,8 +12,7 @@ class DefaultLayout extends React.Component {
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <link rel="stylesheet" href="reset.css"/>
           <link href="https://fonts.googleapis.com/css?family=Roboto|Rubik" rel="stylesheet"/>
-          <link rel="stylesheet" href="header.css"/>
-          <link rel="stylesheet" href="cards.css"/>
+          <link rel="stylesheet" href="style.css"/>
           <link
             rel="stylesheet"
             href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -20,7 +20,9 @@ class DefaultLayout extends React.Component {
             crossOrigin="anonymous"
           />
         </head>
-        <body>{this.props.children}</body>
+        <body>
+          <Header/>
+        {this.props.children}</body>
         <script
           src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
           integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

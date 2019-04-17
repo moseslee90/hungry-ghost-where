@@ -1,6 +1,6 @@
 module.exports = (dbPoolInstance) => {
 
-  let getAll = (callback) => {
+  let getPosts = (callback) => {
 
     let query = "SELECT * FROM users";
 
@@ -24,6 +24,6 @@ module.exports = (dbPoolInstance) => {
   };
 
   return {
-    getAll,
+    getPosts: getPosts,
   };
 };

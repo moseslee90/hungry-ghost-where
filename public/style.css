@@ -2,6 +2,13 @@
   font-family: "Rubik", sans-serif;
   font-size: 25px;
 }
+.post-card {
+    border: solid rgba(0,0,0,0.2) 1px;
+    border-radius: 5px;
+}
+#create-post-title {
+    border-bottom: solid rgba(0,0,0,0.2) 1px;
+}
 @media (max-width: 600px) {
     #navbar-title {
         font-size: 20px;
