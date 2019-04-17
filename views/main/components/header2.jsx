@@ -18,12 +18,18 @@ class Header extends React.Component {
           aria-label="Toggle navigation">
           <span className="navbar-toggler-icon" />
         </button>
-        <form className="form-inline my-2 my-md-0">
-          <input className="form-control" type="text" placeholder="Search" />
-        </form>
 
         <div className="navbar-collapse collapse" id="navbarsExample03">
-          <ul className="navbar-nav mr-auto">
+        <form className="form-inline my-2 my-md-0">
+          <select className="form-control" id="exampleFormControlSelect1">
+            <option>All</option>
+            <option>Popular</option>
+          </select>
+        </form>
+          <form className="form-inline my-2 my-md-0">
+            <input className="form-control" type="text" placeholder="Search" />
+          </form>
+          <ul className="navbar-nav ml-auto">
             <li className="nav-item active">
               <a className="nav-link" href="#">
                 Home <span className="sr-only">(current)</span>
