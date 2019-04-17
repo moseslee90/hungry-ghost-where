@@ -28,7 +28,7 @@ class Header extends React.Component {
                   <div className="col-9">
                     <input
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       id="search-bar"
                       placeholder="Search"
                     />
