@@ -3,37 +3,61 @@ let React = require("react");
 class Header extends React.Component {
   render() {
     return (
-      <div className="row">
-        <div className="col-md-8">
+      <div className="row mb-3">
+        <div className="col-lg-8">
           <div className="row">
-            <div className="col-2 d-flex justify-content-end align-items-center pr-0">
-              <button className="btn btn-light">
-                <img id="site-logo" src="/images/Nana_small.png" width="32" height="32" />
-              </button>
+            <div className="col-1 d-flex justify-content-end align-items-center pr-0">
+              <input type="image" src="/images/Nana_small.png" width="32" height="32" />
             </div>
-            <div id="navbar-title" className="col-2 d-flex align-items-center">
+            <div id="navbar-title" className="col-1 d-flex align-items-center">
               <div>HGW</div>
             </div>
-            <div className="col-4 d-flex align-items-center">
-              <div className="form-group">
-                <select className="form-control" id="exampleFormControlSelect1">
-                  <option>All</option>
-                  <option>Popular</option>
-                </select>
-              </div>
+            <div className="col">
+              <form action="">
+                <div className="form-group mt-1 mb-auto">
+                  <select className="form-control" id="exampleFormControlSelect1">
+                    <option>All</option>
+                    <option>Popular</option>
+                  </select>
+                </div>
+              </form>
             </div>
-            <div className="col-4">search box</div>
+            <div className="col-7">
+              <form action="">
+                <div className="form-group row mt-1 mb-auto">
+                  <div className="col-9">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="search-bar"
+                      placeholder="Search"
+                    />
+                  </div>
+                  <div className="col-3 pl-0 pr-0">
+                    <button className="btn btn-primary" type="submit">
+                      Search
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
-        <div className="col-md-4">
-          <div className="row">
-            <div className="col-5">
+        <div className="col-lg-4">
+          <div className="row mt-1 mb-auto">
+            <div className="col-lg-2 col-0" />
+            <div className="col-lg-3 col-4 d-flex justify-content-end" id="login-column">
               <button className="btn btn-primary">Login</button>
             </div>
-            <div className="col-5">
+            <div className="col-lg-3 col-4 d-flex justify-content-center">
               <button className="btn btn-primary">Signup</button>
             </div>
-            <div className="col-2">account</div>
+            <div className="col-lg-2 col-4 d-flex justify-content-start">
+              <button className="btn btn-primary">Account</button>
+            </div>
+            <div className = "col-lg-2 col-0">
+            
+            </div>
           </div>
         </div>
       </div>
