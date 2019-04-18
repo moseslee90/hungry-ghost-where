@@ -28,7 +28,14 @@ module.exports = db => {
 
   let homeControllerCallback = (request, response) => {
     let data = {};
-    // data["userId"] = request.cookies.userId;
+    //code to check for logged in status for header
+    let cookie = request.cookies.cookie;
+    if (cookie !== undefined) {
+      data["loginStatus"] = true;
+    } else {
+      data["loginStatus"] = false;
+    }
+
     data["userId"] = "alice";
 
     db.HGW.getPosts((error, allUsers) => {
@@ -50,16 +57,39 @@ module.exports = db => {
   };
 
   let loginQueryControllerCallback = (request, response) => {
-    let data = {};
-    // data["userId"] = request.cookies.userId;
-    data["userId"] = "alice";
 
-    response.render("main/login", data);
-    // db.HGW.getPosts((error, allUsers) => {
-    //   data["allUsers"] = allUsers;
+    console.log(request.query);
+    let loginData = {};
+    let email = request.query.email;
+    let email_hash = hash(SALT + email);
+    let password = request.query.password;
+    let password_hash = hash(SALT + password);
+    let cookie = hash(SALT + email);
 
-    // });
+    loginData["email_hash"] = email_hash;
+    loginData["password_hash"] = password_hash;
+
+    db.HGW.loginUser(loginData, (error, result) => {
+      if (error) {
+        console.log(error);
+      } else {
+        if (result === "email") {
+          console.log("invalid email");
+          response.send("Invalid email address");
+        } else if (result === "password") {
+          console.log("wrong password");
+          response.send("wrong password");
+        } else if (result === "success") {
+          response.cookie("cookie", cookie);
+          response.redirect('/login/success');
+        }
+      }
+    });
   };
+
+  let loginSuccessControllerCallback = (request, response) => {
+    response.render("main/login-success");
+  }
 
   let postControllerCallback = (request, response) => {
     let data = {};
@@ -85,14 +115,16 @@ module.exports = db => {
 
     let username_hash = hash(SALT + request.body.username);
     let password_hash = hash(SALT + request.body.password);
+    let email_hash = hash(SALT + request.body.email);
 
-    let cookie = hash(SALT + request.body.username);
+    let cookie = hash(SALT + request.body.email);
     let cookie_hash = hash(SALT + cookie);
 
     registerData["username_hash"] = username_hash;
     registerData["username"] = request.body.username;
     registerData["password_hash"] = password_hash;
     registerData["cookie_hash"] = cookie_hash;
+    registerData["email_hash"] = email_hash;
     registerData["email"] = request.body.email;
 
     db.HGW.registerUser(registerData, (error, result) => {
@@ -106,11 +138,15 @@ module.exports = db => {
             console.log("duplicate email");
             response.send("email already taken");
           } else {
-            response.send("registration successful");
+            response.redirect("/register/success");
           }
       }
     });
   };
+
+  let registerSuccessControllerCallback = (request, response) => {
+    response.render("main/register-success");
+  }
 
   return {
     createPost: createPostControllerCallback,
@@ -118,9 +154,11 @@ module.exports = db => {
     home: homeControllerCallback,
     login: loginControllerCallback,
     loginQuery: loginQueryControllerCallback,
+    loginSuccess: loginSuccessControllerCallback,
     post: postControllerCallback,
     postCreated: postCreatedControllerCallback,
     register: registerControllerCallback,
-    registerQuery: registerQueryControllerCallback
+    registerQuery: registerQueryControllerCallback,
+    registerSuccess: registerSuccessControllerCallback
   };
 };

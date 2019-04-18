@@ -5,10 +5,12 @@ module.exports = (app, allModels) => {
   app.get("/create-post", mainControllerCallbacks.createPost);
   app.post("/create-post/query", mainControllerCallbacks.createPostQuery);
   app.get("/login", mainControllerCallbacks.login);
-  app.post("/login/query", mainControllerCallbacks.loginQuery);
+  app.get("/login/query", mainControllerCallbacks.loginQuery);
+  app.get("/login/success", mainControllerCallbacks.loginSuccess);
   app.get("/post", mainControllerCallbacks.post);
   app.get("/post-created", mainControllerCallbacks.postCreated);
   app.get("/register", mainControllerCallbacks.register);
   app.post("/register/query", mainControllerCallbacks.registerQuery);
+  app.get("/register/success", mainControllerCallbacks.registerSuccess);
   
 };

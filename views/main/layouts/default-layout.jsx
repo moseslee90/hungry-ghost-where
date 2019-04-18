@@ -10,12 +10,12 @@ class DefaultLayout extends React.Component {
           <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
           <title>Hungry Ghost Where</title>
           <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <link rel="stylesheet" href="reset.css" />
+          <link rel="stylesheet" href="/reset.css" />
           <link
             href="https://fonts.googleapis.com/css?family=Roboto|Rubik"
             rel="stylesheet"
           />
-          <link rel="stylesheet" href="style.css" />
+          <link rel="stylesheet" href="/style.css" />
           <link
             rel="stylesheet"
             href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -24,7 +24,7 @@ class DefaultLayout extends React.Component {
           />
         </head>
         <body>
-          <Header />
+          <Header loginStatus = {this.props.loginStatus}/>
           {this.props.children}
         </body>
         <script

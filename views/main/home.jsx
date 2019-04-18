@@ -10,7 +10,7 @@ class Main extends React.Component {
       return <Card key={user.id.toString()} username={user.name} id={user.id} />;
     });
     return (
-      <DefaultLayout>
+      <DefaultLayout loginStatus = {this.props.loginStatus}>
         <div className="row">
           <div className="col-8 px-5">{allUsersHTML}</div>
           <div className="col-4">right column</div>

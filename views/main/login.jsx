@@ -6,7 +6,7 @@ class Login extends React.Component {
     return (
       <DefaultLayout>
         <div className="text-center d-flex justify-content-center">
-          <form className="form-signin">
+          <form className="form-signin" action="/login/query" method="GET">
             <img
               className="mb-4"
               src="/images/Nana_small.png"
@@ -22,7 +22,7 @@ class Login extends React.Component {
               type="email"
               id="inputEmail"
               className="form-control mb-1"
-              name = "email"
+              name="email"
               placeholder="Email address"
               required=""
               autoFocus=""
@@ -40,7 +40,8 @@ class Login extends React.Component {
             />
             <div className="checkbox mb-2 mt-2">
               <label>
-                <input className="mr-1" type="checkbox" value="remember-me" />Remember Me
+                <input className="mr-1" type="checkbox" value="remember-me" />
+                Remember Me
               </label>
             </div>
             <button className="btn btn-lg btn-primary btn-block" type="submit">

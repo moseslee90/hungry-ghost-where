@@ -2,7 +2,8 @@ let React = require("react");
 
 class Header extends React.Component {
   render() {
-    let loginStatus = false;
+    let loginStatus = this.props.loginStatus;
+    console.log(loginStatus);
     let authenticationHTML;
     if (loginStatus === true) {
       authenticationHTML = (

@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS users (
 );
 CREATE TABLE IF NOT EXISTS authentication (
     id SERIAL PRIMARY KEY,
-    username_hash TEXT,
+    email_hash TEXT,
     password_hash TEXT
 );
 

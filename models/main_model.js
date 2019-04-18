@@ -59,13 +59,38 @@ module.exports = dbPoolInstance => {
 
   let loginUser = (loginData, callback) => {
 
-  }
+    let email_hash = loginData.email_hash;
+    let password_hash = loginData.password_hash;
+
+    let queryAuthenticate = "SELECT * FROM authentication WHERE email_hash = '" + email_hash + "'";
+    dbPoolInstance.query(queryAuthenticate, (error, authenticateResult) => {
+      if (error) {
+        console.log(error);
+      } else {
+        if (authenticateResult.rows.length > 0) {
+          //email match found
+          //next check password
+          if (authenticateResult.rows[0].password_hash === password_hash) {
+            //password matched! log the user in
+            callback(null, "success");
+          } else {
+            //wrong password
+            callback(null, "password");
+          }
+        } else {
+          //email not found
+          callback(null, "email");
+        }
+      }
+    });
+  };
 
   let registerUser = (registerData, callback) => {
-    let username_hash = registerData.username_hash;
+
     let username = registerData.username;
     let password_hash = registerData.password_hash;
     let email = registerData.email;
+    let email_hash = registerData.email_hash;
     let cookie_hash = registerData.cookie_hash;
     //first we need to check if username or email has been taken
     let queryUsername = "SELECT * FROM users WHERE username = '" + username + "'";
@@ -77,20 +102,38 @@ module.exports = dbPoolInstance => {
       } else {
         if (queryResultEmail.rows.length > 0) {
           callback(null, "email");
-        } else  {
+        } else {
           //no duplicate username AND email found, time to register user!!
-          let queryRegister = 
-          "INSERT INTO users " +
-          "(deleted, username, email, cookie_hash)" +
-          "VALUES" +
-          "($1,$2,$3,$4)";
+          let queryRegister =
+            "INSERT INTO users " +
+            "(deleted, username, email, cookie_hash)" +
+            "VALUES" +
+            "($1,$2,$3,$4)";
+
+          let queryAuthentication =
+            "INSERT INTO authentication " +
+            "(email_hash, password_hash)" +
+            "VALUES" +
+            "($1,$2)";
+
           let deleted = false;
-          let values = [deleted, username, email, cookie_hash];
-          dbPoolInstance.query(queryRegister,values, (error, queryResult) => {
+          let valuesRegister = [deleted, username, email, cookie_hash];
+          let valuesAuthentication = [email_hash, password_hash];
+          dbPoolInstance.query(queryRegister, valuesRegister, (error, queryResult) => {
             if (error) {
               console.log(error);
             } else {
-              callback(null, "success");
+              dbPoolInstance.query(
+                queryAuthentication,
+                valuesAuthentication,
+                (error, queryResult) => {
+                  if (error) {
+                    console.log(error);
+                  } else {
+                    callback(null, "success");
+                  }
+                }
+              );
             }
           });
         }
