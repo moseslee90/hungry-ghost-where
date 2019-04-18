@@ -1,11 +1,11 @@
-let React = require("react");
-let DefaultLayout = require("./layouts/default-layout");
+let React = require('react');
+let DefaultLayout = require('./layouts/default-layout');
 
-class Login extends React.Component {
-  render() {
-    return (
-      <DefaultLayout>
-        <div className="text-center d-flex justify-content-center">
+class Register extends React.Component {
+render() {
+return (
+<DefaultLayout>
+<div className="text-center d-flex justify-content-center">
           <form className="form-signin">
             <img
               className="mb-4"
@@ -14,7 +14,19 @@ class Login extends React.Component {
               width="72"
               height="72"
             />
-            <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
+            <h1 className="h3 mb-3 font-weight-normal">Please Register</h1>
+            <label htmlFor="inputUsername" className="sr-only">
+              Username
+            </label>
+            <input
+              type="text"
+              id="inputUsername"
+              className="form-control mb-1"
+              name="username"
+              placeholder="Username"
+              required=""
+              autoFocus=""
+            />
             <label htmlFor="inputEmail" className="sr-only">
               Email address
             </label>
@@ -22,7 +34,7 @@ class Login extends React.Component {
               type="email"
               id="inputEmail"
               className="form-control mb-1"
-              name = "email"
+              name="email"
               placeholder="Email address"
               required=""
               autoFocus=""
@@ -38,19 +50,13 @@ class Login extends React.Component {
               placeholder="Password"
               required=""
             />
-            <div className="checkbox mb-2 mt-2">
-              <label>
-                <input className="mr-1" type="checkbox" value="remember-me" />Remember Me
-              </label>
-            </div>
             <button className="btn btn-lg btn-primary btn-block" type="submit">
-              Sign in
+              Register
             </button>
             <p className="mt-5 mb-3 text-muted">© 2017-2019</p>
           </form>
         </div>
-      </DefaultLayout>
-    );
-  }
+</DefaultLayout>
+);}
 }
-module.exports = Login;
+module.exports = Register;

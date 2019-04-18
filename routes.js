@@ -8,5 +8,7 @@ module.exports = (app, allModels) => {
   app.get("/login/query", mainControllerCallbacks.loginQuery);
   app.get("/post", mainControllerCallbacks.post);
   app.get("/post-created", mainControllerCallbacks.postCreated);
+  app.get("/register", mainControllerCallbacks.register);
+  app.post("/register/query", mainControllerCallbacks.registerQuery);
   
 };

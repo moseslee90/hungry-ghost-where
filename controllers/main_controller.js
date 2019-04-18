@@ -13,16 +13,19 @@ module.exports = db => {
 
 
   let createPostQueryControllerCallback = (request, response) => {
-    console.log(request.body);
-    let postData = request.body;
+    let cookie = request.cookie("cookie");
+    console.log(cookie);
+    let cookie_hash = hash(SALT + cookie);
 
-    // db.HGW.createPost(postData, (error, queryResult) => {
-    //   if (error) {
-    //     console.log(error);
-    //   } else {
-    //     response.redirect("/post-created")
-    //   }
-    // });
+    let postData = request.body;
+    postData["cookie_hash"] = cookie_hash;
+    db.HGW.createPost(postData, (error, queryResult) => {
+      if (error) {
+        console.log(error);
+      } else {
+        response.redirect("/post-created")
+      }
+    });
   };
 
   let homeControllerCallback = (request, response) => {
@@ -74,7 +77,15 @@ module.exports = db => {
   };
 
   let postCreatedControllerCallback = (request, response) => {
-    response.render("main/post-created")
+    response.render("main/post-created");
+  };
+
+  let registerControllerCallback = (request, response) => {
+    response.render("main/register");
+  };
+
+  let registerQueryControllerCallback = (request, response) => {
+    response.send("Registered");
   };
 
   return {
@@ -84,6 +95,8 @@ module.exports = db => {
     login: loginControllerCallback,
     loginQuery: loginQueryControllerCallback,
     post: postControllerCallback,
-    postCreated: postCreatedControllerCallback
+    postCreated: postCreatedControllerCallback,
+    register: registerControllerCallback,
+    registerQuery: registerQueryControllerCallback
   };
 };
