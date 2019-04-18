@@ -6,7 +6,7 @@ render() {
 return (
 <DefaultLayout>
 <div className="text-center d-flex justify-content-center">
-          <form className="form-signin">
+          <form className="form-signin" action="/register/query" method="POST">
             <img
               className="mb-4"
               src="/images/Nana_small.png"

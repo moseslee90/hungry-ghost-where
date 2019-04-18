@@ -1,5 +1,4 @@
 module.exports = db => {
-
   const hash = require("js-sha256");
   const SALT = "pepper";
 
@@ -10,7 +9,6 @@ module.exports = db => {
 
     response.render("main/create-post", data);
   };
-
 
   let createPostQueryControllerCallback = (request, response) => {
     let cookie = request.cookie("cookie");
@@ -23,7 +21,7 @@ module.exports = db => {
       if (error) {
         console.log(error);
       } else {
-        response.redirect("/post-created")
+        response.redirect("/post-created");
       }
     });
   };
@@ -36,7 +34,6 @@ module.exports = db => {
     db.HGW.getPosts((error, allUsers) => {
       data["allUsers"] = allUsers;
       response.render("main/home", data);
-
     });
   };
 
@@ -72,7 +69,6 @@ module.exports = db => {
     db.HGW.getPosts((error, allUsers) => {
       data["allUsers"] = allUsers;
       response.render("main/post", data);
-
     });
   };
 
@@ -85,7 +81,35 @@ module.exports = db => {
   };
 
   let registerQueryControllerCallback = (request, response) => {
-    response.send("Registered");
+    let registerData = {};
+
+    let username_hash = hash(SALT + request.body.username);
+    let password_hash = hash(SALT + request.body.password);
+
+    let cookie = hash(SALT + request.body.username);
+    let cookie_hash = hash(SALT + cookie);
+
+    registerData["username_hash"] = username_hash;
+    registerData["username"] = request.body.username;
+    registerData["password_hash"] = password_hash;
+    registerData["cookie_hash"] = cookie_hash;
+    registerData["email"] = request.body.email;
+
+    db.HGW.registerUser(registerData, (error, result) => {
+      if (error) {
+        console.log(error);
+      } else {
+          if (result === "username") {
+            console.log("duplicate username");
+            response.send("username already taken");
+          } else if (result === "email") {
+            console.log("duplicate email");
+            response.send("email already taken");
+          } else {
+            response.send("registration successful");
+          }
+      }
+    });
   };
 
   return {
