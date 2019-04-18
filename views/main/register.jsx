@@ -1,11 +1,11 @@
-let React = require('react');
-let DefaultLayout = require('./layouts/default-layout');
+let React = require("react");
+let DefaultLayout = require("./layouts/default-layout");
 
 class Register extends React.Component {
-render() {
-return (
-<DefaultLayout>
-<div className="text-center d-flex justify-content-center">
+  render() {
+    return (
+      <DefaultLayout>
+        <div className="text-center d-flex justify-content-center">
           <form className="form-signin" action="/register/query" method="POST">
             <img
               className="mb-4"
@@ -50,13 +50,25 @@ return (
               placeholder="Password"
               required=""
             />
+            <label htmlFor="inputPassword" className="sr-only">
+              Confirm Password
+            </label>
+            <input
+              type="password"
+              id="confirmPassword"
+              className="form-control mb-1"
+              placeholder="Confirm Password"
+              required=""
+            />
             <button className="btn btn-lg btn-primary btn-block" type="submit">
               Register
             </button>
             <p className="mt-5 mb-3 text-muted">© 2017-2019</p>
           </form>
         </div>
-</DefaultLayout>
-);}
+        <script src="/register.js" />
+      </DefaultLayout>
+    );
+  }
 }
 module.exports = Register;

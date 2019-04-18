@@ -3,6 +3,8 @@ let Header = require("../components/header");
 
 class DefaultLayout extends React.Component {
   render() {
+
+
     return (
       <html>
         <head>

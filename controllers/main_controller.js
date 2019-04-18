@@ -5,13 +5,20 @@ module.exports = db => {
   let createPostControllerCallback = (request, response) => {
     let data = {};
 
+    let cookie = request.cookies.cookie;
+    if (cookie !== undefined) {
+      data["loginStatus"] = true;
+    } else {
+      data["loginStatus"] = false;
+    }
+
     data["userId"] = "alice";
 
     response.render("main/create-post", data);
   };
 
   let createPostQueryControllerCallback = (request, response) => {
-    let cookie = request.cookie("cookie");
+    let cookie = request.cookies.cookie;
     console.log(cookie);
     let cookie_hash = hash(SALT + cookie);
 

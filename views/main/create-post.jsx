@@ -4,7 +4,7 @@ let DefaultLayout = require("./layouts/default-layout");
 class CreatePost extends React.Component {
   render() {
     return (
-      <DefaultLayout>
+      <DefaultLayout loginStatus = {this.props.loginStatus}>
         <div className="container">
           <div className="row">
             <div className="col-md-9">
@@ -26,7 +26,7 @@ class CreatePost extends React.Component {
                     <input
                       type="title"
                       className="form-control"
-                      name="image"
+                      name="image_url"
                       id="post-image"
                       placeholder="image url (optional)"
                     />
