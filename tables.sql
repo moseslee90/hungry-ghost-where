@@ -1,7 +1,9 @@
+-- psql -d DATABASE_NAME -U USERNAME -f tables.sql
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     deleted BOOLEAN,
     username TEXT,
+    email TEXT,
     cookie_hash TEXT
 );
 CREATE TABLE IF NOT EXISTS authentication (
@@ -19,7 +21,7 @@ CREATE TABLE IF NOT EXISTS posts(
     content TEXT,
     image_url TEXT,
     votes INTEGER,
-    comments_number INTEGER
+    comments_count INTEGER
 );
 CREATE TABLE IF NOT EXISTS comments(
     id SERIAL PRIMARY KEY,
@@ -28,10 +30,15 @@ CREATE TABLE IF NOT EXISTS comments(
     deleted BOOLEAN,
     content TEXT
 );
-CREATE TABLE IF NOT EXISTS votes(
+CREATE TABLE IF NOT EXISTS post_votes(
     id SERIAL PRIMARY KEY,
     user_id INTEGER,
     post_id INTEGER,
-    deleted BOOLEAN,
-    vote BOOLEAN
+    vote INTEGER
 );
+CREATE TABLE IF NOT EXISTS comment_votes (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER,
+    comment_id INTEGER,
+    vote INTEGER   
+)

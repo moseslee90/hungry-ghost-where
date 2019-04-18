@@ -1,7 +1,6 @@
 let React = require("react");
 let DefaultLayout = require("./layouts/default-layout");
 let Card = require("./components/card");
-let Header2 = require("./components/header2");
 
 class Main extends React.Component {
   render() {
@@ -12,7 +11,6 @@ class Main extends React.Component {
     });
     return (
       <DefaultLayout>
-        <Header2 />
         <div className="row">
           <div className="col-8 px-5">{allUsersHTML}</div>
           <div className="col-4">right column</div>

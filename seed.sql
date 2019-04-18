@@ -5,10 +5,10 @@ INSERT INTO users
 )
 VALUES
 ( -- first row: values for the columns in the list above
- Column1_Value, Column2_Value, Column3_Value
+ false, username1, 123456
 ),
 ( -- second row: values for the columns in the list above
- Column1_Value, Column2_Value, Column3_Value
+ false, Column2_Value, Column3_Value
 )
 -- add more rows here
 GO

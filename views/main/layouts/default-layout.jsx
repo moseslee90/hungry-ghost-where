@@ -10,9 +10,12 @@ class DefaultLayout extends React.Component {
           <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
           <title>Hungry Ghost Where</title>
           <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <link rel="stylesheet" href="reset.css"/>
-          <link href="https://fonts.googleapis.com/css?family=Roboto|Rubik" rel="stylesheet"/>
-          <link rel="stylesheet" href="style.css"/>
+          <link rel="stylesheet" href="reset.css" />
+          <link
+            href="https://fonts.googleapis.com/css?family=Roboto|Rubik"
+            rel="stylesheet"
+          />
+          <link rel="stylesheet" href="style.css" />
           <link
             rel="stylesheet"
             href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -21,8 +24,9 @@ class DefaultLayout extends React.Component {
           />
         </head>
         <body>
-          <Header/>
-        {this.props.children}</body>
+          <Header />
+          {this.props.children}
+        </body>
         <script
           src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
           integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

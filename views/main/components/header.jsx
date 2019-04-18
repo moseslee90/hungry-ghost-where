@@ -2,83 +2,94 @@ let React = require("react");
 
 class Header extends React.Component {
   render() {
-    return (
-      <div className="row mb-3 pl-2 pr-2">
-        <div className="col-lg-8">
-          <div className="row">
-            <div className="col-1 d-flex justify-content-end align-items-center pr-0">
-              <input type="image" src="/images/Nana_small.png" width="32" height="32" />
-            </div>
-            <div id="navbar-title" className="col-1 d-flex align-items-center">
-              <div>HGW</div>
-            </div>
-            <div className="col pr-0 pl-4">
-              <form action="">
-                <div className="form-group mt-1 mb-auto">
-                  <select className="form-control" id="exampleFormControlSelect1">
-                    <option>All</option>
-                    <option>Popular</option>
-                  </select>
-                </div>
-              </form>
-            </div>
-            <div className="col-7">
-              <form action="">
-                <div className="form-group row mt-1 mb-auto">
-                  <div className="col-9">
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="search-bar"
-                      placeholder="Search"
-                    />
-                  </div>
-                  <div className="col-3 pl-0 pr-2">
-                    <button className="btn btn-primary" type="submit" id="search-button">
-                      Search
-                    </button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
+    let loginStatus = false;
+    let authenticationHTML;
+    if (loginStatus === true) {
+      authenticationHTML = (
+        <div className="d-flex flex-row">
+          <li className="nav-item">
+            <a className="nav-link" href="/login">
+              Logout
+            </a>
+          </li>
         </div>
-        <div className="col-lg-4">
-          <div className="row mt-1 mb-auto">
-            <div className="col-lg-2 col-0" />
-            <div className="col-lg-3 col-4 d-flex justify-content-end" id="login-column">
-              <button className="btn btn-primary">Login</button>
-            </div>
-            <div className="col-lg-3 col-4 d-flex justify-content-center">
-              <button className="btn btn-primary">Signup</button>
-            </div>
-            <div className="col-lg-2 col-4 nav-item dropdown">
+      );
+    } else {
+      authenticationHTML = (
+        <div className="d-flex flex-row">
+          <li className="nav-item">
+            <a className="nav-link" href="/login">
+              Login
+            </a>
+          </li>
+          <li className="nav-item">
+            <a className="nav-link" href="/register">
+              Register
+            </a>
+          </li>
+        </div>
+      );
+    }
+
+    return (
+      <nav className="navbar navbar-expand-md navbar-light bg-light">
+        <input type="image" src="/images/Nana_small.png" width="32" height="32" />
+        <a className="navbar-brand" href="/">
+          HGW
+        </a>
+        <button
+          className="navbar-toggler collapsed"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarsExample03"
+          aria-controls="navbarsExample03"
+          aria-expanded="false"
+          aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon" />
+        </button>
+
+        <div className="navbar-collapse collapse" id="navbarsExample03">
+          <form className="form-inline my-2 my-md-0">
+            <select className="form-control" id="exampleFormControlSelect1">
+              <option>All</option>
+              <option>Popular</option>
+            </select>
+          </form>
+          <form className="form-inline my-2 my-md-0">
+            <input className="form-control" type="text" placeholder="Search" />
+          </form>
+          <ul className="navbar-nav ml-auto">
+            <li className="nav-item active">
+              <a className="nav-link" href="/">
+                Home <span className="sr-only">(current)</span>
+              </a>
+            </li>
+            <li className="nav-item dropdown">
               <a
                 className="nav-link dropdown-toggle"
-                data-toggle="dropdown"
                 href="#"
-                role="button"
+                id="dropdown03"
+                data-toggle="dropdown"
                 aria-haspopup="true"
                 aria-expanded="false">
-                Account
+                Dropdown
               </a>
-              <div className="dropdown-menu">
-                <a className="dropdown-item" href="#one">
-                  one
+              <div className="dropdown-menu mr-2" aria-labelledby="dropdown03">
+                <a className="dropdown-item" href="/create-post">
+                  Create Post
                 </a>
-                <a className="dropdown-item" href="#two">
-                  two
+                <a className="dropdown-item" href="#">
+                  Another
                 </a>
-                <div role="separator" className="dropdown-divider" />
-                <a className="dropdown-item" href="#three">
-                  three
+                <a className="dropdown-item" href="#">
+                  Something
                 </a>
               </div>
-            </div>
-            <div className="col-lg-2 col-0" />
-          </div>
+            </li>
+            {authenticationHTML}
+          </ul>
         </div>
-      </div>
+      </nav>
     );
   }
 }

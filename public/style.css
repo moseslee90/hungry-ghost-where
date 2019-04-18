@@ -2,19 +2,41 @@
   font-family: "Rubik", sans-serif;
   font-size: 25px;
 }
+#create-post-form{
+    width:100%;
+}
 .post-card {
-    border: solid rgba(0,0,0,0.2) 1px;
-    border-radius: 5px;
+  border: solid rgba(0, 0, 0, 0.2) 1px;
+  border-radius: 5px;
 }
 #create-post-title {
-    border-bottom: solid rgba(0,0,0,0.2) 1px;
+  border-bottom: solid rgba(0, 0, 0, 0.2) 1px;
+}
+.bd-placeholder-img {
+  font-size: 1.125rem;
+  text-anchor: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.form-signin{
+    width:100%;
+    max-width: 330px;
+}
+
+@media (min-width: 768px) {
+  .bd-placeholder-img-lg {
+    font-size: 3.5rem;
+  }
 }
 @media (max-width: 600px) {
-    #navbar-title {
-        font-size: 20px;
-    }
-    #search-button {
-        font-size: 10px;
-        margin-top: 5px;
-    }
+  #navbar-title {
+    font-size: 20px;
+  }
+  #search-button {
+    font-size: 10px;
+    margin-top: 5px;
+  }
 }
