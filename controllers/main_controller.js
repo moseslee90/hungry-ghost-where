@@ -12,8 +12,6 @@ module.exports = db => {
       data["loginStatus"] = false;
     }
 
-    data["userId"] = "alice";
-
     response.render("main/create-post", data);
   };
 
@@ -43,10 +41,8 @@ module.exports = db => {
       data["loginStatus"] = false;
     }
 
-    data["userId"] = "alice";
-
-    db.HGW.getPosts((error, allUsers) => {
-      data["allUsers"] = allUsers;
+    db.HGW.getPosts((error, allPosts) => {
+      data["allPosts"] = allPosts;
       response.render("main/home", data);
     });
   };
@@ -54,7 +50,12 @@ module.exports = db => {
   let loginControllerCallback = (request, response) => {
     let data = {};
     // data["userId"] = request.cookies.userId;
-    data["userId"] = "alice";
+    let cookie = request.cookies.cookie;
+    if (cookie !== undefined) {
+      data["loginStatus"] = true;
+    } else {
+      data["loginStatus"] = false;
+    }
 
     response.render("main/login", data);
     // db.HGW.getPosts((error, allUsers) => {
@@ -64,7 +65,6 @@ module.exports = db => {
   };
 
   let loginQueryControllerCallback = (request, response) => {
-
     console.log(request.query);
     let loginData = {};
     let email = request.query.email;
@@ -88,23 +88,47 @@ module.exports = db => {
           response.send("wrong password");
         } else if (result === "success") {
           response.cookie("cookie", cookie);
-          response.redirect('/login/success');
+          response.redirect("/login/success");
         }
       }
     });
   };
 
   let loginSuccessControllerCallback = (request, response) => {
-    response.render("main/login-success");
+    let data = {};
+
+    let cookie = request.cookies.cookie;
+    if (cookie !== undefined) {
+      data["loginStatus"] = true;
+    } else {
+      data["loginStatus"] = false;
+    }
+
+    response.render("main/login-success", data);
+  };
+
+  let logoutControllerCallback = (request, response) => {
+    let data = {};
+
+    response.clearCookie('cookie');
+
+    let cookie = request.cookies.cookie;
+    data["loginStatus"] = false;
+    response.render("main/logout", data);
   }
 
   let postControllerCallback = (request, response) => {
     let data = {};
 
-    data["userId"] = "alice";
+    let cookie = request.cookies.cookie;
+    if (cookie !== undefined) {
+      data["loginStatus"] = true;
+    } else {
+      data["loginStatus"] = false;
+    }
 
-    db.HGW.getPosts((error, allUsers) => {
-      data["allUsers"] = allUsers;
+    db.HGW.getPosts((error, allPosts) => {
+      data["posts"] = allPosts;
       response.render("main/post", data);
     });
   };
@@ -114,7 +138,16 @@ module.exports = db => {
   };
 
   let registerControllerCallback = (request, response) => {
-    response.render("main/register");
+    let data = {};
+
+    let cookie = request.cookies.cookie;
+    if (cookie !== undefined) {
+      data["loginStatus"] = true;
+    } else {
+      data["loginStatus"] = false;
+    }
+
+    response.render("main/register", data);
   };
 
   let registerQueryControllerCallback = (request, response) => {
@@ -138,22 +171,31 @@ module.exports = db => {
       if (error) {
         console.log(error);
       } else {
-          if (result === "username") {
-            console.log("duplicate username");
-            response.send("username already taken");
-          } else if (result === "email") {
-            console.log("duplicate email");
-            response.send("email already taken");
-          } else {
-            response.redirect("/register/success");
-          }
+        if (result === "username") {
+          console.log("duplicate username");
+          response.send("username already taken");
+        } else if (result === "email") {
+          console.log("duplicate email");
+          response.send("email already taken");
+        } else {
+          response.redirect("/register/success");
+        }
       }
     });
   };
 
   let registerSuccessControllerCallback = (request, response) => {
-    response.render("main/register-success");
-  }
+    let data = {};
+
+    let cookie = request.cookies.cookie;
+    if (cookie !== undefined) {
+      data["loginStatus"] = true;
+    } else {
+      data["loginStatus"] = false;
+    }
+
+    response.render("main/register-success", data);
+  };
 
   return {
     createPost: createPostControllerCallback,
@@ -162,6 +204,7 @@ module.exports = db => {
     login: loginControllerCallback,
     loginQuery: loginQueryControllerCallback,
     loginSuccess: loginSuccessControllerCallback,
+    logout: logoutControllerCallback,
     post: postControllerCallback,
     postCreated: postCreatedControllerCallback,
     register: registerControllerCallback,

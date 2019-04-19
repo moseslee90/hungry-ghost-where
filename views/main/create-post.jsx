@@ -39,6 +39,7 @@ class CreatePost extends React.Component {
                       rows="10"
                     />
                   </div>
+                  <input type="hidden" name="date" value={this.props.date}/>
                   <div className="d-flex justify-content-end">
                     <button type="submit" className="btn btn-primary px-4">
                       Post

@@ -4,7 +4,7 @@ let DefaultLayout = require("./layouts/default-layout");
 class Register extends React.Component {
   render() {
     return (
-      <DefaultLayout>
+      <DefaultLayout loginStatus = {this.props.loginStatus}>
         <div className="text-center d-flex justify-content-center">
           <form className="form-signin" action="/register/query" method="POST">
             <img

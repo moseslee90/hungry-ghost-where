@@ -21,7 +21,9 @@ CREATE TABLE IF NOT EXISTS posts(
     content TEXT,
     image_url TEXT,
     votes INTEGER,
-    comments_count INTEGER
+    comments_count INTEGER,
+    date_time TIMESTAMP,
+    date DATE
 );
 CREATE TABLE IF NOT EXISTS comments(
     id SERIAL PRIMARY KEY,

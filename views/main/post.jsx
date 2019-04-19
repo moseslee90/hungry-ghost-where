@@ -4,7 +4,7 @@ let DefaultLayout = require("./layouts/default-layout");
 class Post extends React.Component {
   render() {
     return (
-      <DefaultLayout>
+      <DefaultLayout loginStatus = {this.props.loginStatus}>
         this is the post page
         <div className="container">
           <div className="row">

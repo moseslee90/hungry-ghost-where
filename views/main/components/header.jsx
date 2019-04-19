@@ -5,11 +5,35 @@ class Header extends React.Component {
     let loginStatus = this.props.loginStatus;
     console.log(loginStatus);
     let authenticationHTML;
+    let dropdownHTML;
     if (loginStatus === true) {
       authenticationHTML = (
         <div className="d-flex flex-row">
+          <li className="nav-item dropdown">
+            <a
+              className="nav-link dropdown-toggle"
+              href="#"
+              id="dropdown03"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false">
+              Dropdown
+            </a>
+            <div className="dropdown-menu mr-2" aria-labelledby="dropdown03">
+              <a className="dropdown-item" href="/create-post">
+                Create Post
+              </a>
+              <a className="dropdown-item" href="#">
+                Another
+              </a>
+              <a className="dropdown-item" href="#">
+                Something
+              </a>
+            </div>
+          </li>
+
           <li className="nav-item">
-            <a className="nav-link" href="/login">
+            <a className="nav-link" href="/logout">
               Logout
             </a>
           </li>
@@ -64,28 +88,6 @@ class Header extends React.Component {
               <a className="nav-link" href="/">
                 Home <span className="sr-only">(current)</span>
               </a>
-            </li>
-            <li className="nav-item dropdown">
-              <a
-                className="nav-link dropdown-toggle"
-                href="#"
-                id="dropdown03"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false">
-                Dropdown
-              </a>
-              <div className="dropdown-menu mr-2" aria-labelledby="dropdown03">
-                <a className="dropdown-item" href="/create-post">
-                  Create Post
-                </a>
-                <a className="dropdown-item" href="#">
-                  Another
-                </a>
-                <a className="dropdown-item" href="#">
-                  Something
-                </a>
-              </div>
             </li>
             {authenticationHTML}
           </ul>

@@ -11,13 +11,13 @@ class Card extends React.Component {
         </div>
         <div className="">
           <div className="row">
-            <div className="col">Posted by {this.props.username} at TIME</div>
+            <div className="col">Posted by {this.props.username} at {this.props.time}</div>
           </div>
           <div className="row">
-            <div className="col">TITLE {this.props.id}</div>
+            <div className="col">TITLE {this.props.title}</div>
           </div>
           <div className="row">
-            <div className="col">IMAGE IF EXISTS</div>
+            <div className="col"><img src={this.props.image_url} alt="" srcset=""/></div>
           </div>
           <div className="row pl-3 d-flex justify-content-start">
             <div className="mr-3">comments ####</div>

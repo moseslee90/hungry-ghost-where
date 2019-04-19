@@ -1,6 +1,6 @@
 module.exports = dbPoolInstance => {
   let getPosts = callback => {
-    let query = "SELECT * FROM users";
+    let query = "SELECT * FROM posts";
 
     dbPoolInstance.query(query, (error, queryResult) => {
       if (error) {
@@ -9,7 +9,7 @@ module.exports = dbPoolInstance => {
         if (queryResult.rows.length > 0) {
           callback(null, queryResult.rows);
         } else {
-          callback(null, null);
+          callback(null, []);
         }
       }
     });
@@ -27,9 +27,9 @@ module.exports = dbPoolInstance => {
       } else {
         let query =
           "INSERT INTO posts " +
-          "(user_id, deleted, title, content, image_url, votes, comments_count)" +
+          "(user_id, deleted, title, content, image_url, votes, comments_count, date_time, date)" +
           "VALUES" +
-          "($1,$2,$3,$4,$5,$6,$7)";
+          "($1,$2,$3,$4,$5,$6,$7,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)";
 
         let user_id = queryUserIdResult.rows[0].id;
 
@@ -40,7 +40,16 @@ module.exports = dbPoolInstance => {
         let votes = 0;
         let comments_count = 0;
 
-        let values = [user_id, deleted, title, content, image_url, votes, comments_count];
+
+        let values = [
+          user_id,
+          deleted,
+          title,
+          content,
+          image_url,
+          votes,
+          comments_count
+        ];
 
         dbPoolInstance.query(query, values, (error, queryResult) => {
           if (error) {
@@ -58,11 +67,11 @@ module.exports = dbPoolInstance => {
   };
 
   let loginUser = (loginData, callback) => {
-
     let email_hash = loginData.email_hash;
     let password_hash = loginData.password_hash;
 
-    let queryAuthenticate = "SELECT * FROM authentication WHERE email_hash = '" + email_hash + "'";
+    let queryAuthenticate =
+      "SELECT * FROM authentication WHERE email_hash = '" + email_hash + "'";
     dbPoolInstance.query(queryAuthenticate, (error, authenticateResult) => {
       if (error) {
         console.log(error);
@@ -86,7 +95,6 @@ module.exports = dbPoolInstance => {
   };
 
   let registerUser = (registerData, callback) => {
-
     let username = registerData.username;
     let password_hash = registerData.password_hash;
     let email = registerData.email;

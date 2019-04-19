@@ -18,6 +18,7 @@ class DefaultLayout extends React.Component {
             rel="stylesheet"
           />
           <link rel="stylesheet" href="/style.css" />
+          {this.props.css}
           <link
             rel="stylesheet"
             href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -29,6 +30,7 @@ class DefaultLayout extends React.Component {
           <Header loginStatus = {this.props.loginStatus}/>
           {this.props.children}
         </body>
+        {this.props.script}
         <script
           src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
           integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
