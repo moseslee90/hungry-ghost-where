@@ -11,14 +11,17 @@ class Main extends React.Component {
       return (
         <Card
           key={post.id.toString()}
+          postId={post.id.toString()}
           username={post.user_id}
           title={post.title}
           time={post.date_time.toString()}
           image_url={post.image_url}
+          votes={post.votes}
+          comments_count={post.comments_count}
         />
       );
     });
-    let customCSS = <link rel="stylesheet" href="home.css" />;
+    let customCSS = <link rel="stylesheet" href="/home.css" />;
     return (
       <DefaultLayout loginStatus={this.props.loginStatus} css={customCSS}>
         <div className="testing">testing custom css</div>

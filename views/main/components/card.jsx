@@ -14,12 +14,13 @@ class Card extends React.Component {
     console.log(dateTime);
 
     let userURL = "/user/" + this.props.username;
+    let postURL = "/post/" + this.props.postId;
     
     return (
       <div className="row post-card d-flex justify-content-start">
         <div className="col-1 d-flex align-items-center justify-content-center flex-column ml-2">
           <input type="image" src="/images/upvote_reddit.png" />
-          <div>number</div>
+          <div>{this.props.votes}</div>
           <input type="image" src="/images/downvote_reddit.png" />
         </div>
         <div className="col">
@@ -27,13 +28,13 @@ class Card extends React.Component {
             <div className="col">Posted by <a href={userURL}>{this.props.username}</a> at {dateTime}</div>
           </div>
           <div className="row">
-            <div className="col">TITLE {this.props.title}</div>
+            <div className="col"> <a href={postURL}>{this.props.title}</a></div>
           </div>
           <div className="row">
             <div className="col"><img className = "card-image" src={this.props.image_url} alt="" srcSet=""/></div>
           </div>
           <div className="row pl-3 d-flex justify-content-start">
-            <div className="mr-3">comments ####</div>
+            <div className="mr-3">comments {this.props.comments_count}</div>
             <div className="">
               <a href="#">save</a>
             </div>

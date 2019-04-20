@@ -3,38 +3,65 @@ let DefaultLayout = require("./layouts/default-layout");
 
 class Post extends React.Component {
   render() {
+    console.log(this.props.post);
+    let postObject = this.props.post;
+    let postTitle = postObject.title;
+    let postContent = postObject.content;
+    let image_url = postObject.image_url;
+    let votes = postObject.votes;
+    let comments_count = postObject.comments_count;
+    let username = postObject.username;
+    let dateData = postObject.date_time;
+
+    let dateObject = new Date(dateData);
+    let year = dateObject.getFullYear();
+    let month = dateObject.getMonth();
+    let day = dateObject.getDate();
+    let hour = dateObject.getHours();
+    let minute = dateObject.getMinutes();
+    let parsedDate = new Date(year, month, day, hour, minute);
+    let parsedTime = parsedDate.toTimeString().slice(0, 5);
+    let dateTime = parsedDate.toDateString() + " " + parsedTime;
+
+    let usernameURL = "/user/" + username;
+
+    let css = <link rel="stylesheet" href="/post.css" />;
     return (
-      <DefaultLayout loginStatus = {this.props.loginStatus}>
-        this is the post page
+      <DefaultLayout loginStatus={this.props.loginStatus} css={css}>
         <div className="container">
-          <div className="row">
-            <div className="col-1">vote</div>
+          <div className="row post">
+            <div className="col-1 d-flex align-items-center justify-content-start flex-column ml-2">
+              <input className="mt-2" type="image" src="/images/upvote_reddit.png" />
+              <div className="votes-div">{votes}</div>
+              <input type="image" src="/images/downvote_reddit.png" />
+            </div>
             <div className="col">
               <div className="row">
                 <div className="col">
-                  Posted by <a href="/#">Name</a> at <span id="post-time">TIME</span>
+                  Posted by <a href={usernameURL}>{username}</a> at{" "}
+                  <span id="post-time">{dateTime}</span>
                 </div>
               </div>
               <div className="row">
-                <div className="col">Post Title</div>
+                <div className="col">{postTitle}</div>
               </div>
               <div className="row">
-                <div className="col">Image if Exists</div>
+                <div className="col">
+                  <img className="post-image" src={image_url} alt="" srcSet="" />
+                </div>
               </div>
               <div className="row">
-                <div className="col">Text Content if Exists</div>
+                <div className="col">{postContent}</div>
               </div>
               <div className="row">
-                <div className="col">Post Stats</div>
+                <div className="col">comments {comments_count}</div>
               </div>
               <div className="row">
                 <div className="col">Add Comment Box</div>
               </div>
             </div>
           </div>
-          <div className = "row">
-          Existing Comments from users
-          </div>
+          <div className="row">Existing Comments from users</div>
         </div>
       </DefaultLayout>
     );

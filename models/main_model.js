@@ -15,6 +15,24 @@ module.exports = dbPoolInstance => {
     });
   };
 
+  let getPost = (postId, callback) => {
+    //get singular post related to post id
+    let query = "SELECT "+
+    "posts.id, posts.user_id, posts.deleted, posts.title, posts.content, posts.image_url, posts.votes, posts.comments_count, posts.date_time, users.username " +
+    "FROM posts INNER JOIN users ON (users.id = posts.user_id) WHERE posts.id='"+postId+"'";
+    dbPoolInstance.query(query, (error, queryResult) => {
+      if (error) {
+        callback(error, null);
+      } else {
+        if (queryResult.rows.length > 0) {
+          callback(null, queryResult.rows[0]);
+        } else {
+          callback(null, []);
+        }
+      }
+    });
+  }
+
   let createPost = (postData, callback) => {
     //use postData to structure query in VALUES
 
@@ -170,6 +188,7 @@ module.exports = dbPoolInstance => {
 
   return {
     getPosts: getPosts,
+    getPost: getPost,
     createPost: createPost,
     loginUser: loginUser,
     registerUser: registerUser

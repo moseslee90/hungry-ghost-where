@@ -119,7 +119,7 @@ module.exports = db => {
 
   let postControllerCallback = (request, response) => {
     let data = {};
-
+    let postId = request.params.id;
     let cookie = request.cookies.cookie;
     if (cookie !== undefined) {
       data["loginStatus"] = true;
@@ -127,8 +127,9 @@ module.exports = db => {
       data["loginStatus"] = false;
     }
 
-    db.HGW.getPosts((error, allPosts) => {
-      data["posts"] = allPosts;
+    db.HGW.getPost(postId, (error, post) => {
+      
+      data["post"] = post;
       response.render("main/post", data);
     });
   };

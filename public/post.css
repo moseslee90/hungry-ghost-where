@@ -1,0 +1,10 @@
+.post-image {
+    width: 100%;
+}
+.post {
+    border: solid rgba(0, 0, 0, 0.2) 1px;
+    border-radius: 5px;
+}
+.votes-div {
+    text-align: center;
+}
