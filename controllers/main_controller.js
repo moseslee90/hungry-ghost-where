@@ -17,7 +17,7 @@ module.exports = db => {
 
   let createPostQueryControllerCallback = (request, response) => {
     let cookie = request.cookies.cookie;
-    console.log(cookie);
+    // console.log(cookie);
     let cookie_hash = hash(SALT + cookie);
 
     let postData = request.body;
@@ -41,6 +41,11 @@ module.exports = db => {
       data["loginStatus"] = false;
     }
 
+    if (request.query.search === undefined) {
+    } else {
+      //handle request.query.search
+      
+    }
     db.HGW.getPosts((error, allPosts) => {
       data["allPosts"] = allPosts;
       response.render("main/home", data);
@@ -65,7 +70,7 @@ module.exports = db => {
   };
 
   let loginQueryControllerCallback = (request, response) => {
-    console.log(request.query);
+    // console.log(request.query);
     let loginData = {};
     let email = request.query.email;
     let email_hash = hash(SALT + email);
@@ -110,12 +115,12 @@ module.exports = db => {
   let logoutControllerCallback = (request, response) => {
     let data = {};
 
-    response.clearCookie('cookie');
+    response.clearCookie("cookie");
 
     let cookie = request.cookies.cookie;
     data["loginStatus"] = false;
     response.render("main/logout", data);
-  }
+  };
 
   let postControllerCallback = (request, response) => {
     let data = {};
@@ -128,7 +133,6 @@ module.exports = db => {
     }
 
     db.HGW.getPost(postId, (error, post) => {
-      
       data["post"] = post;
       response.render("main/post", data);
     });

@@ -80,8 +80,8 @@ class Header extends React.Component {
               <option>Popular</option>
             </select>
           </form>
-          <form className="form-inline my-2 my-md-0">
-            <input className="form-control" type="text" placeholder="Search" />
+          <form className="form-inline my-2 my-md-0" method="GET" action="/">
+            <input className="form-control" type="text" placeholder="Search" name="search"/>
           </form>
           <ul className="navbar-nav ml-auto">
             <li className="nav-item active">

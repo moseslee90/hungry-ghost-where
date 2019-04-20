@@ -11,10 +11,32 @@ class Card extends React.Component {
     let parsedDate = new Date(year, month, day, hour, minute);
     let parsedTime = parsedDate.toTimeString().slice(0,5);
     let dateTime = parsedDate.toDateString() + " " + parsedTime;
-    console.log(dateTime);
+
+    let image_url = this.props.image_url;
 
     let userURL = "/user/" + this.props.username;
     let postURL = "/post/" + this.props.postId;
+
+    let imageExt = image_url.split(".").pop();
+    let mediaHTML = <img className="post-image" src={image_url} alt="" srcSet="" />;
+
+    if (imageExt === "png" || imageExt === "jpg" || imageExt === "jpeg") {
+      //load code for image
+      mediaHTML = <img className="card-image" src={image_url} alt="" srcSet="" />;
+    } else {
+      let videoType = "video/"+imageExt;
+      mediaHTML = (
+        <video
+          className="card-image"
+          preload="auto"
+          loop
+          poster={image_url}
+          autoPlay="autoplay"
+          muted>
+          <source src={image_url} type={videoType} />
+        </video>
+      );
+    }
     
     return (
       <div className="row post-card d-flex justify-content-start">
@@ -31,7 +53,7 @@ class Card extends React.Component {
             <div className="col"> <a href={postURL}>{this.props.title}</a></div>
           </div>
           <div className="row">
-            <div className="col"><img className = "card-image" src={this.props.image_url} alt="" srcSet=""/></div>
+            <div className="col">{mediaHTML}</div>
           </div>
           <div className="row pl-3 d-flex justify-content-start">
             <div className="mr-3">comments {this.props.comments_count}</div>

@@ -3,7 +3,7 @@ let DefaultLayout = require("./layouts/default-layout");
 
 class Post extends React.Component {
   render() {
-    console.log(this.props.post);
+    // console.log(this.props.post);
     let postObject = this.props.post;
     let postTitle = postObject.title;
     let postContent = postObject.content;
@@ -24,6 +24,26 @@ class Post extends React.Component {
     let dateTime = parsedDate.toDateString() + " " + parsedTime;
 
     let usernameURL = "/user/" + username;
+
+    let imageExt = image_url.split(".").pop();
+    let mediaHTML = <img className="post-image" src={image_url} alt="" srcSet="" />;
+
+    if (imageExt === "png" || imageExt === "jpg" || imageExt === "jpeg") {
+      //load code for image
+      mediaHTML = <img className="post-image" src={image_url} alt="" srcSet="" />;
+    } else if (imageExt === "mp4") {
+      mediaHTML = (
+        <video
+          className="post-image"
+          preload="auto"
+          loop
+          poster={image_url}
+          autoPlay="autoplay"
+          muted>
+          <source src={image_url} type="video/mp4" />
+        </video>
+      );
+    }
 
     let css = <link rel="stylesheet" href="/post.css" />;
     return (
@@ -46,9 +66,7 @@ class Post extends React.Component {
                 <div className="col">{postTitle}</div>
               </div>
               <div className="row">
-                <div className="col">
-                  <img className="post-image" src={image_url} alt="" srcSet="" />
-                </div>
+                <div className="col">{mediaHTML}</div>
               </div>
               <div className="row">
                 <div className="col">{postContent}</div>

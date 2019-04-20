@@ -12,7 +12,7 @@ class Main extends React.Component {
         <Card
           key={post.id.toString()}
           postId={post.id.toString()}
-          username={post.user_id}
+          username={post.username}
           title={post.title}
           time={post.date_time.toString()}
           image_url={post.image_url}

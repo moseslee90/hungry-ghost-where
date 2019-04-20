@@ -1,6 +1,8 @@
 module.exports = dbPoolInstance => {
   let getPosts = callback => {
-    let query = "SELECT * FROM posts";
+    let query = "SELECT "+
+    "posts.id, posts.user_id, posts.deleted, posts.title, posts.content, posts.image_url, posts.votes, posts.comments_count, posts.date_time, users.username " +
+    "FROM posts INNER JOIN users ON (users.id = posts.user_id)";
 
     dbPoolInstance.query(query, (error, queryResult) => {
       if (error) {

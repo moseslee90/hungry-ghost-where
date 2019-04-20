@@ -4,4 +4,8 @@
 }
 .card-image {
     width: 100%;
+    max-width: 300px;
+}
+.post-card {
+
 }
