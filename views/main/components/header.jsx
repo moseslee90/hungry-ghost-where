@@ -3,7 +3,7 @@ let React = require("react");
 class Header extends React.Component {
   render() {
     let loginStatus = this.props.loginStatus;
-    console.log(loginStatus);
+    // console.log(loginStatus);
     let authenticationHTML;
     let dropdownHTML;
     if (loginStatus === true) {

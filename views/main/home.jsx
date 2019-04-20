@@ -6,7 +6,7 @@ class Main extends React.Component {
   render() {
     let userId = this.props.userId;
     let allPosts = this.props.allPosts;
-    console.log(allPosts);
+    // console.log(allPosts);
     let allPostsHTML = allPosts.map((post, index) => {
       return (
         <Card
