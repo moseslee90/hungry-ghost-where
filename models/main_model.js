@@ -4,7 +4,7 @@ module.exports = dbPoolInstance => {
     //first check if voter is the author of the post
 
     let queryUser = "SELECT * FROM users WHERE cookie_hash='" + voter_cookie_hash + "'";
-
+    let resultObj = {};
     dbPoolInstance.query(queryUser, (error, queryResult) => {
       if (error) {
         callback(error, null);
@@ -13,10 +13,7 @@ module.exports = dbPoolInstance => {
           //voter user data entry found, get his userId
           let voter_id = queryResult.rows[0].id;
           //check if voter is author
-          let queryCheckAuthor =
-            "SELECT * FROM posts WHERE id='" +
-            post_id +
-            "'";
+          let queryCheckAuthor = "SELECT * FROM posts WHERE id='" + post_id + "'";
 
           dbPoolInstance.query(queryCheckAuthor, (error, queryCheckAuthorResult) => {
             if (error) {
@@ -24,7 +21,8 @@ module.exports = dbPoolInstance => {
             } else {
               if (queryCheckAuthorResult.rows[0].user_id === voter_id) {
                 //voter is the author, don't allow vote
-                callback(null, "author");
+                resultObj["code"] = "author";
+                callback(null, resultObj);
               } else {
                 //voter is not the author, allow vote
                 //next step is to check for vote
@@ -38,36 +36,62 @@ module.exports = dbPoolInstance => {
                   if (error) {
                     console.log(error);
                   } else {
-
-                    function dbPostVoteCountUpdate (voteValue) {
-                      let currentVoteCount = parseInt(queryCheckAuthorResult.rows[0].votes);
+                    function dbPostVoteCountUpdate(voteValue) {
+                      let currentVoteCount = parseInt(
+                        queryCheckAuthorResult.rows[0].votes
+                      );
                       let newVoteCount = currentVoteCount + voteValue;
-                      let updatePostVoteQuery = "UPDATE posts SET votes='"+newVoteCount+"' WHERE id='"+post_id+"'";
-                      dbPoolInstance.query(updatePostVoteQuery, (error, updatePostVoteQueryResult) => {
-                        if (error) {
-                          console.log(error);
+                      let updatePostVoteQuery =
+                        "UPDATE posts SET votes='" +
+                        newVoteCount +
+                        "' WHERE id='" +
+                        post_id +
+                        "'";
+                      dbPoolInstance.query(
+                        updatePostVoteQuery,
+                        (error, updatePostVoteQueryResult) => {
+                          if (error) {
+                            console.log(error);
+                          } else {
+                          }
                         }
-                      });
+                      );
+                      return newVoteCount;
                     }
 
                     function dbVoteInsert(voteValue) {
-                      let voteInsertQuery = "INSERT INTO post_votes (voter_id, post_id, vote) "+
-                      "VALUES ($1, $2, $3)";
+                      let voteInsertQuery =
+                        "INSERT INTO post_votes (voter_id, post_id, vote) " +
+                        "VALUES ($1, $2, $3)";
                       let values = [voter_id, post_id, voteValue];
-                      dbPoolInstance.query(voteInsertQuery, values, (error, voteInsertQueryResult) => {
-                        if (error) {
-                          console.log(error);
+                      dbPoolInstance.query(
+                        voteInsertQuery,
+                        values,
+                        (error, voteInsertQueryResult) => {
+                          if (error) {
+                            console.log(error);
+                          }
                         }
-                      });
+                      );
                     }
                     function dbVoteUpdate(voteValue) {
-                      let voteUpdateQuery = "UPDATE post_votes SET vote='"+voteValue+"' WHERE voter_id='"+voter_id+"' AND post_id='"+post_id+"'";
+                      let voteUpdateQuery =
+                        "UPDATE post_votes SET vote='" +
+                        voteValue +
+                        "' WHERE voter_id='" +
+                        voter_id +
+                        "' AND post_id='" +
+                        post_id +
+                        "'";
 
-                      dbPoolInstance.query(voteUpdateQuery, (error, voteUpdateQueryResult) => {
-                        if (error) {
-                          console.log(error);
+                      dbPoolInstance.query(
+                        voteUpdateQuery,
+                        (error, voteUpdateQueryResult) => {
+                          if (error) {
+                            console.log(error);
+                          }
                         }
-                      });
+                      );
                     }
 
                     if (queryCheckVoteResult.rows.length > 0) {
@@ -76,21 +100,26 @@ module.exports = dbPoolInstance => {
                       if (voteValue === -1) {
                         //write query to change vote to 0
                         dbVoteUpdate(0);
-                        dbPostVoteCountUpdate(0-voteValue);
-                        callback(null, "0");
+                        let newVote = dbPostVoteCountUpdate(0 - voteValue);
+                        resultObj["code"]="0";
+                        resultObj["newVote"]=newVote.toString();
+                        callback(null, resultObj);
                       } else if (voteValue !== -1) {
                         //write query to change vote to -1
                         dbVoteUpdate(-1);
-                        dbPostVoteCountUpdate(-1-voteValue);
-                        callback(null, "-1");
+                        let newVote = dbPostVoteCountUpdate(-1 - voteValue);
+                        resultObj["code"]="-1";
+                        resultObj["newVote"]=newVote.toString();
+                        callback(null, resultObj);
                       }
-                      
                     } else {
                       //vote not found
                       //write query to INSERT vote -1
                       dbVoteInsert(-1);
-                      dbPostVoteCountUpdate(-1);
-                      callback(null, "-1");
+                      let newVote = dbPostVoteCountUpdate(-1);
+                      resultObj["code"]="-1";
+                      resultObj["newVote"]=newVote.toString();
+                      callback(null, resultObj);
                     }
                   }
                 });
@@ -107,7 +136,7 @@ module.exports = dbPoolInstance => {
     let query =
       "SELECT " +
       "posts.id, posts.user_id, posts.deleted, posts.title, posts.content, posts.image_url, posts.votes, posts.comments_count, posts.date_time, users.username " +
-      "FROM posts INNER JOIN users ON (users.id = posts.user_id) "+
+      "FROM posts INNER JOIN users ON (users.id = posts.user_id) " +
       "ORDER BY date_time ASC";
 
     dbPoolInstance.query(query, (error, queryResult) => {
@@ -293,7 +322,7 @@ module.exports = dbPoolInstance => {
     //first check if voter is the author of the post
 
     let queryUser = "SELECT * FROM users WHERE cookie_hash='" + voter_cookie_hash + "'";
-
+    let resultObj = {};
     dbPoolInstance.query(queryUser, (error, queryResult) => {
       if (error) {
         callback(error, null);
@@ -302,10 +331,7 @@ module.exports = dbPoolInstance => {
           //voter user data entry found, get his userId
           let voter_id = queryResult.rows[0].id;
           //check if voter is author
-          let queryCheckAuthor =
-            "SELECT * FROM posts WHERE id='" +
-            post_id +
-            "'";
+          let queryCheckAuthor = "SELECT * FROM posts WHERE id='" + post_id + "'";
 
           dbPoolInstance.query(queryCheckAuthor, (error, queryCheckAuthorResult) => {
             if (error) {
@@ -313,7 +339,8 @@ module.exports = dbPoolInstance => {
             } else {
               if (queryCheckAuthorResult.rows[0].user_id === voter_id) {
                 //voter is the author, don't allow vote
-                callback(null, "author");
+                resultObj["code"] = "author";
+                callback(null, resultObj);
               } else {
                 //voter is not the author, allow vote
                 //next step is to check for vote
@@ -327,36 +354,62 @@ module.exports = dbPoolInstance => {
                   if (error) {
                     console.log(error);
                   } else {
-
-                    function dbPostVoteCountUpdate (voteValue) {
-                      let currentVoteCount = parseInt(queryCheckAuthorResult.rows[0].votes);
+                    function dbPostVoteCountUpdate(voteValue) {
+                      let currentVoteCount = parseInt(
+                        queryCheckAuthorResult.rows[0].votes
+                      );
                       let newVoteCount = currentVoteCount + voteValue;
-                      let updatePostVoteQuery = "UPDATE posts SET votes='"+newVoteCount+"' WHERE id='"+post_id+"'";
-                      dbPoolInstance.query(updatePostVoteQuery, (error, updatePostVoteQueryResult) => {
-                        if (error) {
-                          console.log(error);
+                      let updatePostVoteQuery =
+                        "UPDATE posts SET votes='" +
+                        newVoteCount +
+                        "' WHERE id='" +
+                        post_id +
+                        "'";
+                      dbPoolInstance.query(
+                        updatePostVoteQuery,
+                        (error, updatePostVoteQueryResult) => {
+                          if (error) {
+                            console.log(error);
+                          } else {
+                          }
                         }
-                      });
+                      );
+                      return newVoteCount;
                     }
 
                     function dbVoteInsert(voteValue) {
-                      let voteInsertQuery = "INSERT INTO post_votes (voter_id, post_id, vote) "+
-                      "VALUES ($1, $2, $3)";
+                      let voteInsertQuery =
+                        "INSERT INTO post_votes (voter_id, post_id, vote) " +
+                        "VALUES ($1, $2, $3)";
                       let values = [voter_id, post_id, voteValue];
-                      dbPoolInstance.query(voteInsertQuery, values, (error, voteInsertQueryResult) => {
-                        if (error) {
-                          console.log(error);
+                      dbPoolInstance.query(
+                        voteInsertQuery,
+                        values,
+                        (error, voteInsertQueryResult) => {
+                          if (error) {
+                            console.log(error);
+                          }
                         }
-                      });
+                      );
                     }
                     function dbVoteUpdate(voteValue) {
-                      let voteUpdateQuery = "UPDATE post_votes SET vote='"+voteValue+"' WHERE voter_id='"+voter_id+"' AND post_id='"+post_id+"'";
+                      let voteUpdateQuery =
+                        "UPDATE post_votes SET vote='" +
+                        voteValue +
+                        "' WHERE voter_id='" +
+                        voter_id +
+                        "' AND post_id='" +
+                        post_id +
+                        "'";
 
-                      dbPoolInstance.query(voteUpdateQuery, (error, voteUpdateQueryResult) => {
-                        if (error) {
-                          console.log(error);
+                      dbPoolInstance.query(
+                        voteUpdateQuery,
+                        (error, voteUpdateQueryResult) => {
+                          if (error) {
+                            console.log(error);
+                          }
                         }
-                      });
+                      );
                     }
 
                     if (queryCheckVoteResult.rows.length > 0) {
@@ -365,21 +418,26 @@ module.exports = dbPoolInstance => {
                       if (voteValue === 1) {
                         //write query to change vote to 0
                         dbVoteUpdate(0);
-                        dbPostVoteCountUpdate(0-voteValue);
-                        callback(null, "0");
+                        let newVote = dbPostVoteCountUpdate(0 - voteValue);
+                        resultObj["code"]="0";
+                        resultObj["newVote"]=newVote.toString();
+                        callback(null, resultObj);
                       } else if (voteValue !== 1) {
                         //write query to change vote to -1
                         dbVoteUpdate(1);
-                        dbPostVoteCountUpdate(1-voteValue);
-                        callback(null, "1");
+                        let newVote = dbPostVoteCountUpdate(1 - voteValue);
+                        resultObj["code"]="1";
+                        resultObj["newVote"]=newVote.toString();
+                        callback(null, resultObj);
                       }
-                      
                     } else {
                       //vote not found
                       //write query to INSERT vote -1
                       dbVoteInsert(1);
-                      dbPostVoteCountUpdate(1);
-                      callback(null, "1");
+                      let newVote = dbPostVoteCountUpdate(1);
+                      resultObj["code"]="1";
+                      resultObj["newVote"]=newVote.toString();
+                      callback(null, resultObj);
                     }
                   }
                 });
