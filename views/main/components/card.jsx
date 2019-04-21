@@ -38,6 +38,8 @@ class Card extends React.Component {
       );
     }
 
+    let voteId = "vote-"+this.props.postId;
+
     return (
       <div className="row post-card d-flex justify-content-start">
         <div className="col-1 d-flex align-items-center justify-content-center flex-column ml-0">
@@ -47,7 +49,7 @@ class Card extends React.Component {
             src="/images/upvote_reddit.png"
             postid={this.props.postId}
           />
-          <div>{this.props.votes}</div>
+          <div id={voteId}>{this.props.votes}</div>
           <input
             className="downvote"
             type="image"
