@@ -12,6 +12,7 @@ class Post extends React.Component {
     let comments_count = postObject.comments_count;
     let username = postObject.username;
     let dateData = postObject.date_time;
+    let postId = postObject.id;
 
     let dateObject = new Date(dateData);
     let year = dateObject.getFullYear();
@@ -46,14 +47,28 @@ class Post extends React.Component {
     }
 
     let css = <link rel="stylesheet" href="/post.css" />;
+    let voteId = "vote-" + postId;
+    let customScript = <script src="/vote.js"></script>
     return (
-      <DefaultLayout loginStatus={this.props.loginStatus} css={css}>
+      <DefaultLayout loginStatus={this.props.loginStatus} css={css} script={customScript}>
         <div className="container">
           <div className="row post">
             <div className="col-1 d-flex align-items-center justify-content-start flex-column ml-2">
-              <input className="mt-2" type="image" src="/images/upvote_reddit.png" />
-              <div className="votes-div">{votes}</div>
-              <input type="image" src="/images/downvote_reddit.png" />
+              <input
+                className="mt-2 upvote"
+                type="image"
+                src="/images/upvote_reddit.png"
+                votetype="upvote"
+                postid={postId}
+              />
+              <div className="votes-div" id={voteId}>{votes}</div>
+              <input
+                className="downvote"
+                type="image"
+                src="/images/downvote_reddit.png"
+                votetype="downvote"
+                postid={postId}
+              />
             </div>
             <div className="col">
               <div className="row">

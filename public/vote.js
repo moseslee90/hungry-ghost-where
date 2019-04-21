@@ -3,7 +3,7 @@ let downvoteButtons = document.getElementsByClassName("downvote");
 
 function voteClicked() {
   const postid = this.getAttribute("postid");
-  const voteType = this.getAttribute("class");
+  const voteType = this.getAttribute("votetype");
 
   function responseHandler() {
     console.log("response text", this.responseText);
