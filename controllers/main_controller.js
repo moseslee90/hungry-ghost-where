@@ -44,7 +44,6 @@ module.exports = db => {
     if (request.query.search === undefined) {
     } else {
       //handle request.query.search
-      
     }
     db.HGW.getPosts((error, allPosts) => {
       data["allPosts"] = allPosts;
@@ -151,24 +150,41 @@ module.exports = db => {
     }
     let post_id = request.params.id;
     if (request.body.vote === "upvote") {
-      //launch database query for upvote
-
+      db.HGW.upVote(voter_cookie_hash, post_id, (error, result) => {
+        if (error) {
+          console.log(error);
+        } else {
+          if (result === "author") {
+            console.log("voter is author");
+          } else if (result === "success") {
+            console.log("allow downvote");
+          } else if (result === "0") {
+            console.log("vote is now 0");
+          } else if (result === "1") {
+            console.log("vote is now 1");
+          }
+        }
+      });
       response.send("upvote clicked");
     } else if (request.body.vote === "downvote") {
       db.HGW.downVote(voter_cookie_hash, post_id, (error, result) => {
-        if (result === "author") {
-          console.log("voter is author");
-        } else if (result === "success") {
-          console.log("allow downvote");
-        } else if (result === "0") {
-          console.log("vote is now 0");
-        } else if (result === "-1") {
-          console.log("vote is now -1");
+        if (error) {
+          console.log(error);
+        } else {
+          if (result === "author") {
+            console.log("voter is author");
+          } else if (result === "success") {
+            console.log("allow downvote");
+          } else if (result === "0") {
+            console.log("vote is now 0");
+          } else if (result === "-1") {
+            console.log("vote is now -1");
+          }
         }
       });
       response.send("downvote clicked");
     }
-  }
+  };
 
   let registerControllerCallback = (request, response) => {
     let data = {};
