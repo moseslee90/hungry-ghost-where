@@ -34,13 +34,13 @@ CREATE TABLE IF NOT EXISTS comments(
 );
 CREATE TABLE IF NOT EXISTS post_votes(
     id SERIAL PRIMARY KEY,
-    user_id INTEGER,
+    voter_id INTEGER,
     post_id INTEGER,
     vote INTEGER
 );
 CREATE TABLE IF NOT EXISTS comment_votes (
     id SERIAL PRIMARY KEY,
-    user_id INTEGER,
+    voter_id INTEGER,
     comment_id INTEGER,
     vote INTEGER   
-)
+);

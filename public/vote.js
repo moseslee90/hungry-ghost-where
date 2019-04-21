@@ -1,7 +1,8 @@
 
 let upvoteButtons = document.getElementsByClassName("upvote");
+let downvoteButtons = document.getElementsByClassName("downvote");
 
-function upvoteClicked() {
+function voteClicked() {
 
     function responseHandler() {
         console.log("response text", this.responseText);
@@ -11,7 +12,7 @@ function upvoteClicked() {
 
   const postid = this.getAttribute("postid");
   const voteType = this.getAttribute("class");
-  const requestQuery = "vote=upvote";
+  const requestQuery = "vote="+voteType;
   let request = new XMLHttpRequest();
   let url = "http://127.0.0.1:3000/post/vote/"+postid;
   request.addEventListener("load",responseHandler)
@@ -22,5 +23,9 @@ function upvoteClicked() {
 
 for (let i = 0; i < upvoteButtons.length; i++) {
   const element = upvoteButtons[i];
-  element.addEventListener("click", upvoteClicked);
+  element.addEventListener("click", voteClicked);
+}
+for (let i = 0; i < downvoteButtons.length; i++) {
+    const element = downvoteButtons[i];
+    element.addEventListener("click", voteClicked);
 }

@@ -144,7 +144,26 @@ module.exports = db => {
 
   let postVoteControllerCallback = (request, response) => {
     console.log(request.body);
-    response.send("upvote clicked");
+    let voter_cookie = request.cookies.cookie;
+    let voter_cookie_hash = hash(SALT + voter_cookie);
+    if (voter_cookie === undefined) {
+      console.log("user not logged in");
+    }
+    let post_id = request.params.id;
+    if (request.body.vote === "upvote") {
+      //launch database query for upvote
+
+      response.send("upvote clicked");
+    } else if (request.body.vote === "downvote") {
+      db.HGW.downVote(voter_cookie_hash, post_id, (error, result) => {
+        if (result === "author") {
+          console.log("voter is author");
+        } else if (result === "success") {
+          console.log("allow downvote");
+        }
+      });
+      response.send("downvote clicked");
+    }
   }
 
   let registerControllerCallback = (request, response) => {

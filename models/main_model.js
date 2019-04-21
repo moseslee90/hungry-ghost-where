@@ -1,4 +1,43 @@
 module.exports = dbPoolInstance => {
+
+  let downVote = (voter_cookie_hash, post_id, callback) => {
+    //query database on votestatus
+    //first check if voter is the author of the post
+
+    let queryUser = "SELECT * FROM users WHERE cookie_hash='"+voter_cookie_hash+"'";
+
+    dbPoolInstance.query(queryUser, (error, queryResult) => {
+      if (error) {
+        callback(error, null);
+      } else {
+        if (queryResult.rows.length > 0) {
+          //voter user data entry found, get his userId
+          let voter_id = queryResult.rows[0].id;
+          //check if voter is author
+          let queryCheckAuthor = "SELECT * FROM posts WHERE user_id='"+voter_id+"' AND id='"+post_id+"'";
+      
+          dbPoolInstance.query(queryCheckAuthor, (error, queryCheckVoteResult) => {
+            if (error) {
+              callback(error, null);
+            } else {
+              if (queryCheckVoteResult.rows.length>0) {
+                //voter is the author, don't allow vote
+                callback(error, "author");
+              } else {
+                //voter is not the author, allow vote
+                //next step is to check for vote
+                let queryCheckVote = "SELECT * FROM post_votes";
+                callback(error, "success");
+                console.log("voter is not author");
+              }
+            }
+          });
+        }
+      }
+    });
+
+  }
+
   let getPosts = callback => {
     let query = "SELECT "+
     "posts.id, posts.user_id, posts.deleted, posts.title, posts.content, posts.image_url, posts.votes, posts.comments_count, posts.date_time, users.username " +
@@ -188,11 +227,17 @@ module.exports = dbPoolInstance => {
     dbPoolInstance.query(queryUsername, checkUsername);
   };
 
+  let upVote = callback => {
+
+  }
+
   return {
+    downVote: downVote,
     getPosts: getPosts,
     getPost: getPost,
     createPost: createPost,
     loginUser: loginUser,
-    registerUser: registerUser
+    registerUser: registerUser,
+    upVote: upVote,
   };
 };
