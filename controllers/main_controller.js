@@ -142,6 +142,11 @@ module.exports = db => {
     response.render("main/post-created");
   };
 
+  let postVoteControllerCallback = (request, response) => {
+    console.log(request.body);
+    response.send("upvote clicked");
+  }
+
   let registerControllerCallback = (request, response) => {
     let data = {};
 
@@ -212,6 +217,7 @@ module.exports = db => {
     logout: logoutControllerCallback,
     post: postControllerCallback,
     postCreated: postCreatedControllerCallback,
+    postVote: postVoteControllerCallback,
     register: registerControllerCallback,
     registerQuery: registerQueryControllerCallback,
     registerSuccess: registerSuccessControllerCallback

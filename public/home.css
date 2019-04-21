@@ -4,8 +4,10 @@
 }
 .card-image {
     width: 100%;
-    max-width: 300px;
 }
-.post-card {
-
+.image-row {
+    /* max-height: 200px; */
+}
+.image-column {
+    /* max-height: 200px; */
 }

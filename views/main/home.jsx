@@ -21,9 +21,10 @@ class Main extends React.Component {
         />
       );
     });
-    let customCSS = <link rel="stylesheet" href="/home.css" />;
+    let customCSS = <link rel="stylesheet" href="/home.css"/>;
+    let customScript = <script src="/vote.js"></script>
     return (
-      <DefaultLayout loginStatus={this.props.loginStatus} css={customCSS}>
+      <DefaultLayout loginStatus={this.props.loginStatus} css={customCSS} script={customScript}>
         <div className="testing">testing custom css</div>
         <div className="row">
           <div className="col-8 px-5">{allPostsHTML}</div>

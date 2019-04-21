@@ -58,7 +58,9 @@ class Header extends React.Component {
 
     return (
       <nav className="navbar navbar-expand-md navbar-light bg-light">
-        <input type="image" src="/images/Nana_small.png" width="32" height="32" />
+        <form action="/" method="get">
+          <input type="image" src="/images/Nana_small.png" width="32" height="32" />
+        </form>
         <a className="navbar-brand" href="/">
           HGW
         </a>
@@ -81,7 +83,12 @@ class Header extends React.Component {
             </select>
           </form>
           <form className="form-inline my-2 my-md-0" method="GET" action="/">
-            <input className="form-control" type="text" placeholder="Search" name="search"/>
+            <input
+              className="form-control"
+              type="text"
+              placeholder="Search"
+              name="search"
+            />
           </form>
           <ul className="navbar-nav ml-auto">
             <li className="nav-item active">

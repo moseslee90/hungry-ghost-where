@@ -9,7 +9,7 @@ class Card extends React.Component {
     let hour = dateObject.getHours();
     let minute = dateObject.getMinutes();
     let parsedDate = new Date(year, month, day, hour, minute);
-    let parsedTime = parsedDate.toTimeString().slice(0,5);
+    let parsedTime = parsedDate.toTimeString().slice(0, 5);
     let dateTime = parsedDate.toDateString() + " " + parsedTime;
 
     let image_url = this.props.image_url;
@@ -24,7 +24,7 @@ class Card extends React.Component {
       //load code for image
       mediaHTML = <img className="card-image" src={image_url} alt="" srcSet="" />;
     } else {
-      let videoType = "video/"+imageExt;
+      let videoType = "video/" + imageExt;
       mediaHTML = (
         <video
           className="card-image"
@@ -37,24 +37,38 @@ class Card extends React.Component {
         </video>
       );
     }
-    
+
     return (
       <div className="row post-card d-flex justify-content-start">
-        <div className="col-1 d-flex align-items-center justify-content-center flex-column ml-2">
-          <input type="image" src="/images/upvote_reddit.png" />
+        <div className="col-1 d-flex align-items-center justify-content-center flex-column ml-0">
+          <input
+            className="upvote"
+            type="image"
+            src="/images/upvote_reddit.png"
+            postid={this.props.postId}
+          />
           <div>{this.props.votes}</div>
-          <input type="image" src="/images/downvote_reddit.png" />
+          <input
+            className="downvote"
+            type="image"
+            src="/images/downvote_reddit.png"
+            postid={this.props.postId}
+          />
         </div>
+        <div className="col-2 image-column pl-0">{mediaHTML}</div>
         <div className="col">
           <div className="row">
-            <div className="col">Posted by <a href={userURL}>{this.props.username}</a> at {dateTime}</div>
+            <div className="col">
+              Posted by <a href={userURL}>{this.props.username}</a> at {dateTime}
+            </div>
           </div>
           <div className="row">
-            <div className="col"> <a href={postURL}>{this.props.title}</a></div>
+            <div className="col">
+              {" "}
+              <a href={postURL}>{this.props.title}</a>
+            </div>
           </div>
-          <div className="row">
-            <div className="col">{mediaHTML}</div>
-          </div>
+
           <div className="row pl-3 d-flex justify-content-start">
             <div className="mr-3">comments {this.props.comments_count}</div>
             <div className="">
