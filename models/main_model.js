@@ -1,10 +1,9 @@
 module.exports = dbPoolInstance => {
-
   let downVote = (voter_cookie_hash, post_id, callback) => {
     //query database on votestatus
     //first check if voter is the author of the post
 
-    let queryUser = "SELECT * FROM users WHERE cookie_hash='"+voter_cookie_hash+"'";
+    let queryUser = "SELECT * FROM users WHERE cookie_hash='" + voter_cookie_hash + "'";
 
     dbPoolInstance.query(queryUser, (error, queryResult) => {
       if (error) {
@@ -14,20 +13,75 @@ module.exports = dbPoolInstance => {
           //voter user data entry found, get his userId
           let voter_id = queryResult.rows[0].id;
           //check if voter is author
-          let queryCheckAuthor = "SELECT * FROM posts WHERE user_id='"+voter_id+"' AND id='"+post_id+"'";
-      
-          dbPoolInstance.query(queryCheckAuthor, (error, queryCheckVoteResult) => {
+          let queryCheckAuthor =
+            "SELECT * FROM posts WHERE user_id='" +
+            voter_id +
+            "' AND id='" +
+            post_id +
+            "'";
+
+          dbPoolInstance.query(queryCheckAuthor, (error, queryCheckAuthorResult) => {
             if (error) {
               callback(error, null);
             } else {
-              if (queryCheckVoteResult.rows.length>0) {
+              if (queryCheckAuthorResult.rows.length > 0) {
                 //voter is the author, don't allow vote
-                callback(error, "author");
+                callback(null, "author");
               } else {
                 //voter is not the author, allow vote
                 //next step is to check for vote
-                let queryCheckVote = "SELECT * FROM post_votes";
-                callback(error, "success");
+                let queryCheckVote =
+                  "SELECT * FROM post_votes WHERE voter_id='" +
+                  voter_id +
+                  "' AND post_id='" +
+                  post_id +
+                  "'";
+                dbPoolInstance.query(queryCheckVote, (error, queryCheckVoteResult) => {
+                  if (error) {
+                    console.log(error);
+                  } else {
+
+                    function dbVoteInsert(voteValue) {
+                      let voteInsertQuery = "INSERT INTO post_votes (voter_id, post_id, vote) "+
+                      "VALUES ($1, $2, $3)";
+                      let values = [voter_id, post_id, voteValue];
+                      dbPoolInstance.query(voteInsertQuery, values, (error, voteInsertQueryResult) => {
+                        if (error) {
+                          console.log(error);
+                        }
+                      });
+                    }
+                    function dbVoteUpdate(voteValue) {
+                      let voteUpdateQuery = "UPDATE post_votes SET vote='"+voteValue+"' WHERE voter_id='"+voter_id+"' AND post_id='"+post_id+"'";
+
+                      dbPoolInstance.query(voteUpdateQuery, (error, voteUpdateQueryResult) => {
+                        if (error) {
+                          console.log(error);
+                        }
+                      });
+                    }
+
+                    if (queryCheckVoteResult.rows.length > 0) {
+                      //vote entry found, check vote value
+                      let voteValue = parseInt(queryCheckVoteResult.rows[0].vote);
+                      if (voteValue === -1) {
+                        //write query to change vote to 0
+                        dbVoteUpdate(0);
+                        callback(null, "0");
+                      } else if (voteValue === 0) {
+                        //write query to change vote to -1
+                        dbVoteUpdate(-1);
+                        callback(null, "-1");
+                      }
+                      
+                    } else {
+                      //vote not found
+                      //write query to INSERT vote -1
+                      dbVoteInsert(-1);
+                      callback(null, "-1");
+                    }
+                  }
+                });
                 console.log("voter is not author");
               }
             }
@@ -35,13 +89,13 @@ module.exports = dbPoolInstance => {
         }
       }
     });
-
-  }
+  };
 
   let getPosts = callback => {
-    let query = "SELECT "+
-    "posts.id, posts.user_id, posts.deleted, posts.title, posts.content, posts.image_url, posts.votes, posts.comments_count, posts.date_time, users.username " +
-    "FROM posts INNER JOIN users ON (users.id = posts.user_id)";
+    let query =
+      "SELECT " +
+      "posts.id, posts.user_id, posts.deleted, posts.title, posts.content, posts.image_url, posts.votes, posts.comments_count, posts.date_time, users.username " +
+      "FROM posts INNER JOIN users ON (users.id = posts.user_id)";
 
     dbPoolInstance.query(query, (error, queryResult) => {
       if (error) {
@@ -58,9 +112,12 @@ module.exports = dbPoolInstance => {
 
   let getPost = (postId, callback) => {
     //get singular post related to post id
-    let query = "SELECT "+
-    "posts.id, posts.user_id, posts.deleted, posts.title, posts.content, posts.image_url, posts.votes, posts.comments_count, posts.date_time, users.username " +
-    "FROM posts INNER JOIN users ON (users.id = posts.user_id) WHERE posts.id='"+postId+"'";
+    let query =
+      "SELECT " +
+      "posts.id, posts.user_id, posts.deleted, posts.title, posts.content, posts.image_url, posts.votes, posts.comments_count, posts.date_time, users.username " +
+      "FROM posts INNER JOIN users ON (users.id = posts.user_id) WHERE posts.id='" +
+      postId +
+      "'";
     dbPoolInstance.query(query, (error, queryResult) => {
       if (error) {
         callback(error, null);
@@ -72,7 +129,7 @@ module.exports = dbPoolInstance => {
         }
       }
     });
-  }
+  };
 
   let createPost = (postData, callback) => {
     //use postData to structure query in VALUES
@@ -99,16 +156,7 @@ module.exports = dbPoolInstance => {
         let votes = 0;
         let comments_count = 0;
 
-
-        let values = [
-          user_id,
-          deleted,
-          title,
-          content,
-          image_url,
-          votes,
-          comments_count
-        ];
+        let values = [user_id, deleted, title, content, image_url, votes, comments_count];
 
         dbPoolInstance.query(query, values, (error, queryResult) => {
           if (error) {
@@ -227,9 +275,7 @@ module.exports = dbPoolInstance => {
     dbPoolInstance.query(queryUsername, checkUsername);
   };
 
-  let upVote = callback => {
-
-  }
+  let upVote = callback => {};
 
   return {
     downVote: downVote,
@@ -238,6 +284,6 @@ module.exports = dbPoolInstance => {
     createPost: createPost,
     loginUser: loginUser,
     registerUser: registerUser,
-    upVote: upVote,
+    upVote: upVote
   };
 };

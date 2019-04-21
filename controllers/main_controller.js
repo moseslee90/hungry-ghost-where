@@ -160,6 +160,10 @@ module.exports = db => {
           console.log("voter is author");
         } else if (result === "success") {
           console.log("allow downvote");
+        } else if (result === "0") {
+          console.log("vote is now 0");
+        } else if (result === "-1") {
+          console.log("vote is now -1");
         }
       });
       response.send("downvote clicked");
