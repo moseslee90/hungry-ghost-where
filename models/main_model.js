@@ -14,9 +14,7 @@ module.exports = dbPoolInstance => {
           let voter_id = queryResult.rows[0].id;
           //check if voter is author
           let queryCheckAuthor =
-            "SELECT * FROM posts WHERE user_id='" +
-            voter_id +
-            "' AND id='" +
+            "SELECT * FROM posts WHERE id='" +
             post_id +
             "'";
 
@@ -24,7 +22,7 @@ module.exports = dbPoolInstance => {
             if (error) {
               callback(error, null);
             } else {
-              if (queryCheckAuthorResult.rows.length > 0) {
+              if (queryCheckAuthorResult.rows[0].user_id === voter_id) {
                 //voter is the author, don't allow vote
                 callback(null, "author");
               } else {
@@ -44,7 +42,7 @@ module.exports = dbPoolInstance => {
                     function dbPostVoteCountUpdate (voteValue) {
                       let currentVoteCount = parseInt(queryCheckAuthorResult.rows[0].votes);
                       let newVoteCount = currentVoteCount + voteValue;
-                      let updatePostVoteQuery = "UPDATE INTO posts SET votes='"+newVoteCount+"' WHERE id='"+post_id+"'";
+                      let updatePostVoteQuery = "UPDATE posts SET votes='"+newVoteCount+"' WHERE id='"+post_id+"'";
                       dbPoolInstance.query(updatePostVoteQuery, (error, updatePostVoteQueryResult) => {
                         if (error) {
                           console.log(error);
@@ -91,6 +89,7 @@ module.exports = dbPoolInstance => {
                       //vote not found
                       //write query to INSERT vote -1
                       dbVoteInsert(-1);
+                      dbPostVoteCountUpdate(-1);
                       callback(null, "-1");
                     }
                   }
@@ -303,9 +302,7 @@ module.exports = dbPoolInstance => {
           let voter_id = queryResult.rows[0].id;
           //check if voter is author
           let queryCheckAuthor =
-            "SELECT * FROM posts WHERE user_id='" +
-            voter_id +
-            "' AND id='" +
+            "SELECT * FROM posts WHERE id='" +
             post_id +
             "'";
 
@@ -313,7 +310,7 @@ module.exports = dbPoolInstance => {
             if (error) {
               callback(error, null);
             } else {
-              if (queryCheckAuthorResult.rows.length > 0) {
+              if (queryCheckAuthorResult.rows[0].user_id === voter_id) {
                 //voter is the author, don't allow vote
                 callback(null, "author");
               } else {
@@ -329,6 +326,17 @@ module.exports = dbPoolInstance => {
                   if (error) {
                     console.log(error);
                   } else {
+
+                    function dbPostVoteCountUpdate (voteValue) {
+                      let currentVoteCount = parseInt(queryCheckAuthorResult.rows[0].votes);
+                      let newVoteCount = currentVoteCount + voteValue;
+                      let updatePostVoteQuery = "UPDATE posts SET votes='"+newVoteCount+"' WHERE id='"+post_id+"'";
+                      dbPoolInstance.query(updatePostVoteQuery, (error, updatePostVoteQueryResult) => {
+                        if (error) {
+                          console.log(error);
+                        }
+                      });
+                    }
 
                     function dbVoteInsert(voteValue) {
                       let voteInsertQuery = "INSERT INTO post_votes (voter_id, post_id, vote) "+
@@ -356,10 +364,12 @@ module.exports = dbPoolInstance => {
                       if (voteValue === 1) {
                         //write query to change vote to 0
                         dbVoteUpdate(0);
+                        dbPostVoteCountUpdate(0-voteValue);
                         callback(null, "0");
                       } else if (voteValue !== 1) {
                         //write query to change vote to -1
                         dbVoteUpdate(1);
+                        dbPostVoteCountUpdate(1-voteValue);
                         callback(null, "1");
                       }
                       
@@ -367,6 +377,7 @@ module.exports = dbPoolInstance => {
                       //vote not found
                       //write query to INSERT vote -1
                       dbVoteInsert(1);
+                      dbPostVoteCountUpdate(1);
                       callback(null, "1");
                     }
                   }
