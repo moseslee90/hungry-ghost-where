@@ -165,9 +165,20 @@ module.exports = dbPoolInstance => {
         callback(error, null);
       } else {
         if (queryResult.rows.length > 0) {
-          callback(null, queryResult.rows[0]);
+          let post = queryResult.rows[0];
+          let getCommentsQuery = "SELECT " +
+          "comments.id, comments.user_id, comments.post_id, comments.deleted, comments.content, comments.reply_to, comments.date_time, users.username " +
+          "FROM comments INNER JOIN users ON (users.id = comments.user_id) WHERE comments.post_id='"+postId+"'";
+          dbPoolInstance.query(getCommentsQuery, (error, commentsQueryResult) => {
+            if (error) {
+              callback(error, null);
+            } else {
+              post["comments"]=commentsQueryResult.rows;
+              callback(null, post);
+            }
+          });
         } else {
-          callback(null, []);
+          callback(null, "failure");
         }
       }
     });

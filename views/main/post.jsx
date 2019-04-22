@@ -5,7 +5,7 @@ let Comment = require("./components/comment");
 
 class Post extends React.Component {
   render() {
-    // console.log(this.props.post);
+    console.log(this.props.post);
     let postObject = this.props.post;
     let postTitle = postObject.title;
     let postContent = postObject.content;
@@ -64,43 +64,7 @@ class Post extends React.Component {
     //assumes we have comments array
     //use findReplies on root comments
 
-    let commentsArray = [
-      {
-        id: "1",
-        content: "content of one",
-        reply_to: null
-      },
-      {
-        id: "2",
-        content: "content of two",
-        reply_to: "1"
-      },
-      {
-        id: "3",
-        content: "content of three",
-        reply_to: "1"
-      },
-      {
-        id: "4",
-        content: "content of four",
-        reply_to: "3"
-      },
-      {
-        id: "5",
-        content: "content of five",
-        reply_to: "3"
-      },
-      {
-        id: "6",
-        content: "content of six",
-        reply_to: "1"
-      },
-      {
-        id: "7",
-        content: "content of seven",
-        reply_to: null
-      }
-    ];
+    let commentsArray = this.props.post.comments;
 
     function findReplies(rootComment) {
       let rootId = rootComment.id;
@@ -110,14 +74,35 @@ class Post extends React.Component {
       //commentsArray is an external array of comments from the post
       let repliesArray = commentsArray.filter(filterReplies);
       if (repliesArray[0] === undefined) {
-        let rootCommentHTML = <Comment content={rootComment.content} />;
+        let rootCommentHTML = (
+          <Comment
+            commentId={rootComment.id}
+            user_id={rootComment.user_id}
+            post_id={rootComment.post_id}
+            deleted={rootComment.deleted}
+            content={rootComment.content}
+            reply_to={rootComment.reply_to}
+            date_time={rootComment.date_time}
+            username={rootComment.username}
+          />
+        );
         return rootCommentHTML;
       } else {
         let childrenComments = repliesArray.map(comment => {
           return findReplies(comment);
         });
         let rootCommentHTML = (
-          <Comment content={rootComment.content}>{childrenComments}</Comment>
+          <Comment
+            commentId={rootComment.id}
+            user_id={rootComment.user_id}
+            post_id={rootComment.post_id}
+            deleted={rootComment.deleted}
+            content={rootComment.content}
+            reply_to={rootComment.reply_to}
+            date_time={rootComment.date_time}
+            username={rootComment.username}>
+            {childrenComments}
+          </Comment>
         );
         return rootCommentHTML;
       }

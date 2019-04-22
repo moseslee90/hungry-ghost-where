@@ -37,7 +37,7 @@ class Comment extends React.Component {
             <div className="col">{this.props.content}</div>
           </div>
           <div className="row">
-            <div className="col">comment footer</div>
+            <div className="col"> <a className="reply-button" href="#">Reply</a> </div>
           </div>
           <div className="row">
             <div className="col">
