@@ -55,7 +55,12 @@ class Post extends React.Component {
       </div>
     );
     let voteId = "vote-" + postId;
-    let customScript = <script src="/vote.js" />;
+    let customScript = (
+      <div>
+        <script src="/vote.js" />
+        <script src="/post.js" />
+      </div>
+    );
 
     //-----------------------------------------------
     //COMMENT TREE GENERATION
