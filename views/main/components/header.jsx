@@ -41,13 +41,13 @@ class Header extends React.Component {
       );
     } else {
       authenticationHTML = (
-        <div className="d-flex flex-row">
-          <li className="nav-item">
+        <div className="row">
+          <li className="nav-item col-md">
             <a className="nav-link" href="/login">
               Login
             </a>
           </li>
-          <li className="nav-item">
+          <li className="nav-item col-md">
             <a className="nav-link" href="/register">
               Register
             </a>
