@@ -7,7 +7,7 @@ class Comment extends React.Component {
     let votes = 0;
     return (
       <div className="row">
-        <div className="col-1 d-flex align-items-center justify-content-start flex-column">
+        <div className="upvote-column d-flex align-items-center justify-content-start flex-column">
           <input
             className="mt-2 upvote"
             type="image"
@@ -15,21 +15,23 @@ class Comment extends React.Component {
             votetype="upvote"
             commentid={commentId}
           />
-          <div className="votes-div" id={voteId}>
-            {votes}
-          </div>
           <input
-            className="downvote"
+            className="mt-1 downvote"
             type="image"
             src="/images/downvote_reddit.png"
             votetype="downvote"
             commentid={commentId}
           />
-          <div className="comment-line"/>
+          <div className="comment-line" />
         </div>
-        <div className="col">
+        <div className="col mt-1">
           <div className="row">
-            <div className="col">{this.props.username}</div>
+            <div className="col">
+              {this.props.username}
+              <span className="votes-div" id={voteId}>
+                {votes}
+              </span>
+            </div>
           </div>
           <div className="row">
             <div className="col">{this.props.content}</div>

@@ -135,8 +135,8 @@ class Post extends React.Component {
 
     return (
       <DefaultLayout loginStatus={this.props.loginStatus} css={css} script={customScript}>
-        <div className="container">
-          <div className="row post">
+        <div className="container post">
+          <div className="row">
             <div className="col-1 d-flex align-items-center justify-content-start flex-column ml-2">
               <input
                 className="mt-2 upvote"
@@ -180,8 +180,9 @@ class Post extends React.Component {
               </div>
             </div>
           </div>
-          <div className="row">Existing Comments from users</div>
-          {commentsHTML}
+          <div className="row ml-5 mt-3">
+            <div className="col">{commentsHTML}</div>
+          </div>
         </div>
       </DefaultLayout>
     );
