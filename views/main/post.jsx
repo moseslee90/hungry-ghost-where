@@ -34,7 +34,8 @@ class Post extends React.Component {
     if (imageExt === "png" || imageExt === "jpg" || imageExt === "jpeg") {
       //load code for image
       mediaHTML = <img className="post-image" src={image_url} alt="" srcSet="" />;
-    } else if (imageExt === "mp4") {
+    } else {
+      let videoType = "video/" + imageExt;
       mediaHTML = (
         <video
           className="post-image"
@@ -43,7 +44,7 @@ class Post extends React.Component {
           poster={image_url}
           autoPlay="autoplay"
           muted>
-          <source src={image_url} type="video/mp4" />
+          <source src={image_url} type={videoType} />
         </video>
       );
     }
