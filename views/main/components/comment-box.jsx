@@ -15,9 +15,8 @@ class CommentBox extends React.Component {
         <button
         id={submitButtonId}
         type="submit"
-        aria-disabled="true"
         disabled="true"
-        className="btn btn-primary px-3 py-1 my-1 mr-2 disabled comment-submit-button">
+        className="btn btn-primary px-3 py-1 my-1 mr-2 comment-submit-button">
           REPLY
         </button>
       );
@@ -29,9 +28,8 @@ class CommentBox extends React.Component {
         <button
           id={submitButtonId}
           type="submit"
-          aria-disabled="true"
           disabled="true"
-          className="btn btn-primary px-3 py-1 my-1 mr-2 disabled comment-submit-button">
+          className="btn btn-primary px-3 py-1 my-1 mr-2 comment-submit-button">
           COMMENT
         </button>
       );

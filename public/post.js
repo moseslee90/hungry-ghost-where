@@ -4,12 +4,11 @@ function updateSubmitButtonState() {
   let buttonHTML = document.getElementById(buttonId);
   let inputValue = this.value;
   if (inputValue !== "") {
-      console.log("value is null");
-    buttonHTML.classList.remove("disabled");
-    buttonHTML.setAttribute("aria-disabled", "false");
-    buttonHTML.setAttribute("disabled", "false");
+
+    buttonHTML.removeAttribute("disabled");
   } else {
-      console.log("value is not null");
+
+      buttonHTML.setAttribute("disabled", "");
   }
 }
 
