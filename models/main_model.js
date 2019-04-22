@@ -173,6 +173,50 @@ module.exports = dbPoolInstance => {
     });
   };
 
+  let createComment = (commentData, callback) => {
+
+    let cookie_hash = commentData.cookie_hash;
+    let queryUserId = "SELECT id FROM users WHERE cookie_hash = '" + cookie_hash + "'";
+
+    dbPoolInstance.query(queryUserId, (error, queryUserIdResult) => {
+      if (error) {
+        console.log(error);
+      } else if (queryUserIdResult.rows.length > 0){
+        console.log(commentData.reply_to);
+        let user_id = queryUserIdResult.rows[0].id;
+        let post_id = commentData.post_id;
+        let deleted = false;
+        let content = commentData.content;
+        let reply_to;
+        if (commentData.reply_to === "null") {
+          reply_to = null;
+        } else {
+          reply_to = commentData.reply_to;
+        }
+
+        let addCommentQuery = 
+        "INSERT INTO comments " +
+        "(user_id, post_id, deleted, content, reply_to, date_time)" +
+        "VALUES" +
+        "($1,$2,$3,$4,$5,CURRENT_TIMESTAMP)";
+
+        let values = [user_id,post_id,deleted,content,reply_to];
+
+        dbPoolInstance.query(addCommentQuery, values, (error, queryResult) => {
+          if (error) {
+            callback(error, null);
+          } else {
+            if (queryResult.rows.length > 0) {
+              callback(null, "success");
+            } else {
+              callback(null, null);
+            }
+          }
+        });
+      }
+    });
+  }
+
   let createPost = (postData, callback) => {
     //use postData to structure query in VALUES
 
@@ -454,6 +498,7 @@ module.exports = dbPoolInstance => {
     downVote: downVote,
     getPosts: getPosts,
     getPost: getPost,
+    createComment: createComment,
     createPost: createPost,
     loginUser: loginUser,
     registerUser: registerUser,

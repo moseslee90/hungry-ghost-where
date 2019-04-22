@@ -176,7 +176,7 @@ class Post extends React.Component {
                 <div className="col">comments {comments_count}</div>
               </div>
               <div className="row">
-                <CommentBox />
+                <CommentBox post_id={postId} />
               </div>
             </div>
           </div>

@@ -2,6 +2,27 @@ module.exports = db => {
   const hash = require("js-sha256");
   const SALT = "pepper";
 
+  let commentAddControllerCallback = (request, response) => {
+
+    let commentData = request.body;
+
+    let cookie = request.cookies.cookie;
+    let cookie_hash = hash(SALT + cookie);
+    commentData["cookie_hash"] = cookie_hash;
+
+    db.HGW.createComment(commentData, (error, queryResult) => {
+      if (error) {
+        console.log(error);
+      } else {
+        if (queryResult === "success") {
+          console.log("success");
+        }
+        let redirectURL = "/post/"+commentData.post_id;
+        response.redirect(redirectURL);
+      }
+    });
+  };
+
   let createPostControllerCallback = (request, response) => {
     let data = {};
 
@@ -253,6 +274,7 @@ module.exports = db => {
   };
 
   return {
+    commentAdd: commentAddControllerCallback,
     createPost: createPostControllerCallback,
     createPostQuery: createPostQueryControllerCallback,
     home: homeControllerCallback,

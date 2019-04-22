@@ -2,15 +2,16 @@ let React = require("react");
 
 class CommentBox extends React.Component {
   render() {
+      let postURL = "/post/add-comment/" + this.props.post_id;
     return (
       <div className="col">
         <div className="row">
-          <div className="col">Comment as USERNAME</div>
+          <div className="col">Comment as {this.props.username}</div>
         </div>
         <div className="row">
           <div className="col">
             <div className="comment-form">
-              <form id="create-post-form" action="/create-post/query" method="POST">
+              <form id="create-post-form" action={postURL} method="POST">
                 <div className="form-group mb-0">
                   <textarea
                     className="form-control comment-input"
@@ -20,7 +21,8 @@ class CommentBox extends React.Component {
                     rows="10"
                   />
                 </div>
-                <input type="hidden" name="date" value={this.props.date} />
+                <input type="hidden" name="reply_to" value="null" />
+                <input type="hidden" name="post_id" value={this.props.post_id} />
                 <div className="d-flex justify-content-end comment-button-row">
                   <button
                     id="comment-submit-button"

@@ -2,8 +2,8 @@ let React = require("react");
 
 class Comment extends React.Component {
   render() {
-    let commentId;
-    let voteId;
+    let commentId = this.props.commentId;
+    let voteId = this.props.commentId;
     let votes = 0;
     return (
       <div className="row">
