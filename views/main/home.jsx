@@ -7,36 +7,6 @@ class Main extends React.Component {
     let userId = this.props.userId;
     let allPosts = this.props.allPosts;
 
-    function findReplies(rootComment) {
-      //assume we have the array of comments
-      //some of them have a reply_to value (indicates which comment they are replying to)
-      //some of them have root===true (indicates whether comment is a root element)
-
-      //first step is to find out which comments reply to this
-      //assume that comment tree/array is not huge, use for-loop
-      let rootId = rootComment.id;
-      function filterReplies(comment) {
-        return comment.reply_to === rootId;
-      }
-      let repliesArray = commentsArray.filter(filterReplies);
-      if (repliesArray[0] === undefined) {
-        let rootCommentHTML = <Comment text={rootComment.text} />;
-        return rootCommentHTML;
-      } else {
-        let childrenComments = repliesArray.map(comment => {
-          return findReplies(comment);
-        });
-        let rootCommentHTML = (
-        <Comment text={rootComment.text}>
-        {findReplies()}
-        </Comment>
-        );
-        return rootCommentHTML;
-      }
-      //happens when no more replies found on ALL children
-      return postWithChildren;
-    }
-
     // console.log(allPosts);
     let allPostsHTML = allPosts.map((post, index) => {
       return (

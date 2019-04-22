@@ -30,7 +30,8 @@ CREATE TABLE IF NOT EXISTS comments(
     user_id INTEGER,
     post_id INTEGER,
     deleted BOOLEAN,
-    content TEXT
+    content TEXT,
+    reply_to INTEGER
 );
 CREATE TABLE IF NOT EXISTS post_votes(
     id SERIAL PRIMARY KEY,

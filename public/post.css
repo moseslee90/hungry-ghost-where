@@ -17,6 +17,11 @@
 .comment-button-row {
     background-color: rgb(246, 247, 248);
 }
+.comment-line{
+    width: 1px;
+    height:100%;
+    border-left: solid rgba(0, 0, 0, 0.2) 1px;
+}
 #comment-submit-button {
     font-family: 'Raleway', sans-serif;
     font-style: normal;

@@ -1,6 +1,7 @@
 let React = require("react");
 let DefaultLayout = require("./layouts/default-layout");
 let CommentBox = require("./components/comment-box");
+let Comment = require("./components/comment");
 
 class Post extends React.Component {
   render() {
@@ -55,6 +56,83 @@ class Post extends React.Component {
     );
     let voteId = "vote-" + postId;
     let customScript = <script src="/vote.js" />;
+
+    //-----------------------------------------------
+    //COMMENT TREE GENERATION
+    //-----------------------------------------------
+
+    //assumes we have comments array
+    //use findReplies on root comments
+
+    let commentsArray = [
+      {
+        id: "1",
+        content: "content of one",
+        reply_to: null
+      },
+      {
+        id: "2",
+        content: "content of two",
+        reply_to: "1"
+      },
+      {
+        id: "3",
+        content: "content of three",
+        reply_to: "1"
+      },
+      {
+        id: "4",
+        content: "content of four",
+        reply_to: "3"
+      },
+      {
+        id: "5",
+        content: "content of five",
+        reply_to: "3"
+      },
+      {
+        id: "6",
+        content: "content of six",
+        reply_to: "1"
+      },
+      {
+        id: "7",
+        content: "content of seven",
+        reply_to: null
+      }
+    ];
+
+    function findReplies(rootComment) {
+      let rootId = rootComment.id;
+      function filterReplies(comment) {
+        return comment.reply_to === rootId;
+      }
+      //commentsArray is an external array of comments from the post
+      let repliesArray = commentsArray.filter(filterReplies);
+      if (repliesArray[0] === undefined) {
+        let rootCommentHTML = <Comment content={rootComment.content} />;
+        return rootCommentHTML;
+      } else {
+        let childrenComments = repliesArray.map(comment => {
+          return findReplies(comment);
+        });
+        let rootCommentHTML = (
+          <Comment content={rootComment.content}>{childrenComments}</Comment>
+        );
+        return rootCommentHTML;
+      }
+    }
+
+    function findRootComments(comment) {
+      return comment.reply_to === null;
+    }
+
+    let rootCommentsArray = commentsArray.filter(findRootComments);
+
+    let commentsHTML = rootCommentsArray.map(rootCommentObject => {
+      return findReplies(rootCommentObject);
+    });
+
     return (
       <DefaultLayout loginStatus={this.props.loginStatus} css={css} script={customScript}>
         <div className="container">
@@ -103,6 +181,7 @@ class Post extends React.Component {
             </div>
           </div>
           <div className="row">Existing Comments from users</div>
+          {commentsHTML}
         </div>
       </DefaultLayout>
     );
