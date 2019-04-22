@@ -3,6 +3,12 @@ let React = require("react");
 class CommentBox extends React.Component {
   render() {
       let postURL = "/post/add-comment/" + this.props.post_id;
+      let reply_to;
+      if (this.props.reply_to !== undefined) {
+        reply_to = this.props.reply_to;
+      } else {
+        reply_to = "null";  
+      }
     return (
       <div className="col">
         <div className="row">
@@ -21,7 +27,7 @@ class CommentBox extends React.Component {
                     rows="10"
                   />
                 </div>
-                <input type="hidden" name="reply_to" value="null" />
+                <input type="hidden" name="reply_to" value={reply_to} />
                 <input type="hidden" name="post_id" value={this.props.post_id} />
                 <div className="d-flex justify-content-end comment-button-row">
                   <button

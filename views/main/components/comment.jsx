@@ -1,10 +1,14 @@
 let React = require("react");
+let CommentBox = require("./comment-box");
 
 class Comment extends React.Component {
   render() {
     let commentId = this.props.commentId;
     let voteId = this.props.commentId;
     let votes = 0;
+    let post_id = this.props.post_id;
+    let replyCommentBoxId = "reply-"+commentId;
+    let replyHref = "#"+replyCommentBoxId;
     return (
       <div className="row">
         <div className="upvote-column d-flex align-items-center justify-content-start flex-column">
@@ -26,18 +30,34 @@ class Comment extends React.Component {
         </div>
         <div className="col mt-1">
           <div className="row">
-            <div className="col">
-              {this.props.username}
-              <span className="votes-div" id={voteId}>
-                {votes}
-              </span>
+            <div className="col d-flex flex-row">
+              <div>{this.props.username} </div>
+              <div>
+                <div className="votes-div-comments mb-1 ml-2" id={voteId}>
+                  points: {votes}
+                </div>
+              </div>
             </div>
           </div>
           <div className="row">
             <div className="col">{this.props.content}</div>
           </div>
           <div className="row">
-            <div className="col"> <a className="reply-button" href="#">Reply</a> </div>
+            <div className="col">
+              {" "}
+              <a
+                className="reply-button"
+                data-toggle="collapse"
+                href={replyHref}
+                role="button"
+                aria-expanded="false"
+                aria-controls={replyCommentBoxId}>
+                Reply
+              </a>{" "}
+            </div>
+          </div>
+          <div className="row collapse" id={replyCommentBoxId}>
+            <CommentBox post_id={post_id} reply_to={commentId}/>
           </div>
           <div className="row">
             <div className="col">

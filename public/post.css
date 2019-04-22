@@ -8,6 +8,11 @@
 .votes-div {
     text-align: center;
 }
+.votes-div-comments {
+    text-align: center;
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 12px;
+}
 .upvote-column {
     width: 30px;
 }
