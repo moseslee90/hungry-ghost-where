@@ -1,6 +1,6 @@
 #navbar-title {
   font-family: "Rubik", sans-serif;
-  font-size: 25px;
+  font-size: 30vw;
 }
 #create-post-form{
     width:100%;
@@ -32,9 +32,6 @@
   }
 }
 @media (max-width: 600px) {
-  #navbar-title {
-    font-size: 20px;
-  }
   #search-button {
     font-size: 10px;
     margin-top: 5px;

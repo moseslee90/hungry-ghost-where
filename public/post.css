@@ -8,3 +8,17 @@
 .votes-div {
     text-align: center;
 }
+.comment-form {
+    border: solid rgba(0, 0, 0, 0.2) 1px;
+}
+.comment-input {
+    border: 0px !important;
+}
+.comment-button-row {
+    background-color: rgb(246, 247, 248);
+}
+#comment-submit-button {
+    font-family: 'Raleway', sans-serif;
+    font-style: normal;
+    font-weight: 1000;
+}

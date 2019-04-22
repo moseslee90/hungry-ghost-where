@@ -1,13 +1,18 @@
-.testing{
-    font-size: 40px;
-    color: orange;
+.testing {
+  font-size: 10vw;
+  color: orange;
 }
 .card-image {
-    width: 100%;
+  width: 100%;
 }
-.image-row {
-    /* max-height: 200px; */
+.posted-by-row {
+  font-size: 2vw;
 }
 .image-column {
-    /* max-height: 200px; */
+  /* max-height: 200px; */
+}
+@media (max-width: 768px) {
+  .posted-by-row {
+    font-size: 3vw;
+  }
 }

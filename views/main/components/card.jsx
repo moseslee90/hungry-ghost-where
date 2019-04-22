@@ -45,6 +45,7 @@ class Card extends React.Component {
         <div className="col-1 d-flex align-items-center justify-content-center flex-column ml-0">
           <input
             className="upvote"
+            votetype="upvote"
             type="image"
             src="/images/upvote_reddit.png"
             postid={this.props.postId}
@@ -52,6 +53,7 @@ class Card extends React.Component {
           <div id={voteId}>{this.props.votes}</div>
           <input
             className="downvote"
+            votetype="downvote"
             type="image"
             src="/images/downvote_reddit.png"
             postid={this.props.postId}
@@ -60,7 +62,7 @@ class Card extends React.Component {
         <div className="col-2 image-column pl-0">{mediaHTML}</div>
         <div className="col">
           <div className="row">
-            <div className="col">
+            <div className="col posted-by-row">
               Posted by <a href={userURL}>{this.props.username}</a> at {dateTime}
             </div>
           </div>

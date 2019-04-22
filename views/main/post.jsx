@@ -1,5 +1,6 @@
 let React = require("react");
 let DefaultLayout = require("./layouts/default-layout");
+let CommentBox = require("./components/comment-box");
 
 class Post extends React.Component {
   render() {
@@ -46,9 +47,14 @@ class Post extends React.Component {
       );
     }
 
-    let css = <link rel="stylesheet" href="/post.css" />;
+    let css = (
+      <div>
+        <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" />
+        <link rel="stylesheet" href="/post.css" />
+      </div>
+    );
     let voteId = "vote-" + postId;
-    let customScript = <script src="/vote.js"></script>
+    let customScript = <script src="/vote.js" />;
     return (
       <DefaultLayout loginStatus={this.props.loginStatus} css={css} script={customScript}>
         <div className="container">
@@ -61,7 +67,9 @@ class Post extends React.Component {
                 votetype="upvote"
                 postid={postId}
               />
-              <div className="votes-div" id={voteId}>{votes}</div>
+              <div className="votes-div" id={voteId}>
+                {votes}
+              </div>
               <input
                 className="downvote"
                 type="image"
@@ -90,7 +98,7 @@ class Post extends React.Component {
                 <div className="col">comments {comments_count}</div>
               </div>
               <div className="row">
-                <div className="col">Add Comment Box</div>
+                <CommentBox />
               </div>
             </div>
           </div>

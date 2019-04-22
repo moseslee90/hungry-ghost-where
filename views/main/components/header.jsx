@@ -8,8 +8,8 @@ class Header extends React.Component {
     let dropdownHTML;
     if (loginStatus === true) {
       authenticationHTML = (
-        <div className="d-flex flex-row">
-          <li className="nav-item dropdown">
+        <div className="row">
+          <li className="nav-item dropdown col-md">
             <a
               className="nav-link dropdown-toggle"
               href="#"
@@ -32,7 +32,7 @@ class Header extends React.Component {
             </div>
           </li>
 
-          <li className="nav-item">
+          <li className="nav-item col-md">
             <a className="nav-link" href="/logout">
               Logout
             </a>
