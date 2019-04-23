@@ -15,7 +15,7 @@ class Post extends React.Component {
     let username = postObject.username;
     let dateData = postObject.date_time;
     let postId = postObject.id;
-
+    console.log(username);
     let dateObject = new Date(dateData);
     let year = dateObject.getFullYear();
     let month = dateObject.getMonth();
