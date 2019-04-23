@@ -15,7 +15,7 @@ function voteClicked() {
 
   const requestQuery = "vote=" + voteType;
   let request = new XMLHttpRequest();
-  let url = "http://127.0.0.1:3000/post/vote/" + postid;
+  let url = "/post/vote/" + postid;
   request.addEventListener("load", responseHandler);
   request.open("POST", url);
   request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
