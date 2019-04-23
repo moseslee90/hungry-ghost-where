@@ -29,7 +29,6 @@ class Main extends React.Component {
         loginStatus={this.props.loginStatus}
         css={customCSS}
         script={customScript}>
-        <div className="testing">testing custom css</div>
         <div className="row">
           <div className="col-md-9 px-5">{allPostsHTML}</div>
           <div className="col-md-3">right column</div>
